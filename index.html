@@ -1,0 +1,772 @@
+<!-- Chosen Palette: Upscale Dining - Stone (Neutral Backgrounds), Charcoal (Text), Amber/Bronze (Accents) -->
+<!-- Application Structure Plan: A tab-based dashboard that guides the narrative from 'The Problem/Vision' to 'The Solution' (with interactive demos) and finally 'The Business Deal'. This structure mimics a pitch deck but allows for non-linear exploration. The 'Live' HACCP demo and Financial Calculator are designed to prove technical competence and business acumen immediately. -->
+<!-- Visualization & Content Choices: 
+     1. Ecosystem Diagram (HTML/CSS): Visualizes the integration of Toast, WP, and Custom App without using SVG/Mermaid. 
+     2. Live HACCP Chart (Chart.js): A real-time updating line chart to demonstrate the ESP32 concept visually. 
+     3. Financial Projection (Chart.js): A bar/line combo chart that updates based on user input (sliders) to show SaaS potential.
+     4. Modules Grid: Card-based layout for Training/Rewards.
+     Confirming NO SVG graphics used. NO Mermaid JS used. -->
+<!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strategic Tech Partnership Proposal</title>
+    
+    <!-- Fonts: Playfair Display for headings (Upscale feel), Inter for UI -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Tailwind Config for Custom Colors -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#fafaf9',  // stone-50
+                            100: '#f5f5f4', // stone-100
+                            200: '#e7e5e4', // stone-200
+                            800: '#292524', // stone-800
+                            900: '#1c1917', // stone-900
+                            accent: '#d97706', // amber-600
+                            accentLight: '#fcd34d', // amber-300
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Utilities */
+        body {
+            background-color: #fafaf9; /* Stone 50 */
+            color: #292524; /* Stone 800 */
+        }
+        
+        /* Chart Container Styling - Mandatory */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px; /* Max width for readability */
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+
+        /* Flowchart/Diagram Styles */
+        .flow-box {
+            border: 1px solid #e7e5e4;
+            background: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        .flow-box:hover {
+            border-color: #d97706;
+            transform: translateY(-2px);
+        }
+        .connector-line {
+            width: 2px;
+            background-color: #e7e5e4;
+            flex-grow: 1;
+        }
+        
+        /* Navigation Active State */
+        .nav-item.active {
+            border-bottom: 2px solid #d97706;
+            color: #1c1917;
+            font-weight: 600;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f5f5f4; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d6d3d1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8a29e; 
+        }
+    </style>
+</head>
+<body class="flex flex-col h-screen overflow-hidden">
+
+    <!-- Header / Navigation -->
+    <header class="bg-white border-b border-brand-200 flex-none z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Branding -->
+                <div class="flex items-center">
+                    <div class="w-10 h-10 bg-brand-900 text-white flex items-center justify-center rounded-sm font-serif text-xl font-bold mr-3">P</div>
+                    <div>
+                        <h1 class="font-serif text-2xl text-brand-900 font-bold leading-none">Partnership Proposal</h1>
+                        <p class="text-xs text-brand-800 uppercase tracking-widest mt-1">Digital Operations Suite</p>
+                    </div>
+                </div>
+
+                <!-- Desktop Nav -->
+                <nav class="hidden md:flex space-x-8">
+                    <button onclick="switchTab('vision')" class="nav-item active py-4 px-1 text-sm font-medium text-brand-800 hover:text-brand-accent transition-colors" id="nav-vision">Vision</button>
+                    <button onclick="switchTab('ecosystem')" class="nav-item py-4 px-1 text-sm font-medium text-brand-500 hover:text-brand-accent transition-colors" id="nav-ecosystem">The Ecosystem</button>
+                    <button onclick="switchTab('modules')" class="nav-item py-4 px-1 text-sm font-medium text-brand-500 hover:text-brand-accent transition-colors" id="nav-modules">Modules & Demo</button>
+                    <button onclick="switchTab('business')" class="nav-item py-4 px-1 text-sm font-medium text-brand-500 hover:text-brand-accent transition-colors" id="nav-business">Business Case (SaaS)</button>
+                    <button onclick="switchTab('proposal')" class="nav-item py-4 px-1 text-sm font-medium text-brand-500 hover:text-brand-accent transition-colors" id="nav-proposal">Structure & Terms</button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area (Scrollable) -->
+    <main class="flex-grow overflow-y-auto bg-brand-50 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-24">
+
+            <!-- TAB 1: VISION -->
+            <section id="tab-vision" class="tab-content block animate-fade-in">
+                <div class="max-w-3xl mx-auto text-center mb-12">
+                    <h2 class="font-serif text-4xl text-brand-900 mb-4">Elevating Operations through Technology</h2>
+                    <p class="text-lg text-gray-600 leading-relaxed">
+                        Moving beyond handwritten spreadsheets to a unified, data-driven ecosystem. 
+                        Bridging the gap between our upscale service standards and modern operational efficiency.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                    <!-- Current State -->
+                    <div class="bg-white p-8 rounded-lg shadow-sm border border-brand-200">
+                        <h3 class="font-serif text-xl text-brand-800 mb-4 flex items-center">
+                            <span class="text-2xl mr-2 text-gray-400">&#9888;</span> The Current Friction
+                        </h3>
+                        <ul class="space-y-4">
+                            <li class="flex items-start">
+                                <span class="text-red-400 mr-2 mt-1">&#10005;</span>
+                                <span class="text-gray-600 text-sm">Static, handwritten training logs that are hard to audit.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-red-400 mr-2 mt-1">&#10005;</span>
+                                <span class="text-gray-600 text-sm">Reactive HACCP checks (clipboard based) prone to human error.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-red-400 mr-2 mt-1">&#10005;</span>
+                                <span class="text-gray-600 text-sm">Disconnected systems (WordPress marketing vs. Toast operations).</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Future State -->
+                    <div class="bg-white p-8 rounded-lg shadow-md border-l-4 border-brand-accent">
+                        <h3 class="font-serif text-xl text-brand-800 mb-4 flex items-center">
+                            <span class="text-2xl mr-2 text-brand-accent">&#10003;</span> The Strategic Advantage
+                        </h3>
+                        <ul class="space-y-4">
+                            <li class="flex items-start">
+                                <span class="text-green-500 mr-2 mt-1">&#10003;</span>
+                                <span class="text-gray-600 text-sm">Interactive, gamified training PWA for instant employee onboarding.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-green-500 mr-2 mt-1">&#10003;</span>
+                                <span class="text-gray-600 text-sm">Automated HACCP data streams via ESP32 IoT hardware.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-green-500 mr-2 mt-1">&#10003;</span>
+                                <span class="text-gray-600 text-sm">Scalable SaaS product ready for the Toast Marketplace.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="bg-brand-900 text-brand-50 rounded-lg p-8 text-center">
+                    <h3 class="font-serif text-2xl mb-2">The Proposition</h3>
+                    <p class="max-w-2xl mx-auto font-light text-brand-200">
+                        I am proposing a partnership to build this custom software suite. 
+                        We deploy it internally first to perfect operations, then package it as a commercial product for other restaurant groups.
+                    </p>
+                </div>
+            </section>
+
+            <!-- TAB 2: ECOSYSTEM (Architecture) -->
+            <section id="tab-ecosystem" class="tab-content hidden">
+                <div class="mb-8">
+                    <h2 class="font-serif text-3xl text-brand-900 mb-2">System Architecture</h2>
+                    <p class="text-gray-600 text-sm">How the components integrate to create a seamless operational loop.</p>
+                </div>
+
+                <!-- Custom Diagram Implementation (CSS Grid/Flex) -->
+                <div class="bg-white p-6 sm:p-12 rounded-xl shadow-sm border border-brand-200 overflow-x-auto">
+                    <div class="min-w-[700px] flex flex-col items-center space-y-8">
+                        
+                        <!-- Top Layer: External/Cloud -->
+                        <div class="flex space-x-12 w-full justify-center">
+                            <div class="flow-box w-48 p-4 text-center rounded-lg relative">
+                                <div class="font-bold text-orange-600 mb-1">Toast POS</div>
+                                <div class="text-xs text-gray-500">API & Sync</div>
+                                <div class="text-[10px] text-gray-400 mt-2">Sales Data, Labor, Menu</div>
+                            </div>
+                            
+                            <div class="flow-box w-48 p-4 text-center rounded-lg border-blue-200">
+                                <div class="font-bold text-blue-600 mb-1">WordPress</div>
+                                <div class="text-xs text-gray-500">Marketing & Web</div>
+                                <div class="text-[10px] text-gray-400 mt-2">Public Facing, Reservations</div>
+                            </div>
+                        </div>
+
+                        <!-- Vertical Connector -->
+                        <div class="h-12 w-0.5 bg-gray-300"></div>
+
+                        <!-- Middle Layer: The Core Application -->
+                        <div class="flow-box w-full max-w-2xl p-6 rounded-lg border-2 border-brand-accent bg-brand-50 relative z-10">
+                            <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-brand-accent text-white px-3 py-1 text-xs font-bold rounded-full uppercase tracking-wider">The Core Product</div>
+                            <h3 class="text-center font-serif text-xl font-bold text-brand-900 mb-6">Custom Operations Hub (PWA)</h3>
+                            
+                            <div class="grid grid-cols-3 gap-4">
+                                <div class="bg-white p-3 rounded shadow-sm text-center">
+                                    <div class="text-2xl mb-1">&#127891;</div>
+                                    <div class="font-bold text-sm text-gray-700">LMS Training</div>
+                                    <div class="text-[10px] text-gray-500">Quizzes, SOPs</div>
+                                </div>
+                                <div class="bg-white p-3 rounded shadow-sm text-center border border-red-100">
+                                    <div class="text-2xl mb-1">&#127777;</div>
+                                    <div class="font-bold text-sm text-gray-700">HACCP Live</div>
+                                    <div class="text-[10px] text-gray-500">IoT Data Stream</div>
+                                </div>
+                                <div class="bg-white p-3 rounded shadow-sm text-center">
+                                    <div class="text-2xl mb-1">&#127942;</div>
+                                    <div class="font-bold text-sm text-gray-700">Rewards</div>
+                                    <div class="text-[10px] text-gray-500">Gamification</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Vertical Connector -->
+                        <div class="h-12 w-0.5 bg-gray-300"></div>
+
+                        <!-- Bottom Layer: Hardware -->
+                        <div class="flow-box w-64 p-4 text-center rounded-lg border-green-200 bg-green-50">
+                            <div class="font-bold text-green-700 mb-1">Custom IoT Hardware</div>
+                            <div class="text-xs text-gray-600">ESP32 Controllers + Sensors</div>
+                            <div class="text-[10px] text-gray-500 mt-2">Fridges, Walk-ins, Line Checks</div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="p-4 border-l-2 border-brand-accent bg-white">
+                        <h4 class="font-bold text-brand-900 text-sm">Toast Integration</h4>
+                        <p class="text-xs text-gray-500 mt-1">Leveraging my Developer License application to pull real-time sales data for employee rewards.</p>
+                    </div>
+                    <div class="p-4 border-l-2 border-brand-accent bg-white">
+                        <h4 class="font-bold text-brand-900 text-sm">Custom Hardware</h4>
+                        <p class="text-xs text-gray-500 mt-1">Low-cost ESP32 microcontrollers. 90% cheaper than standard commercial IoT sensors.</p>
+                    </div>
+                    <div class="p-4 border-l-2 border-brand-accent bg-white">
+                        <h4 class="font-bold text-brand-900 text-sm">Ownership</h4>
+                        <p class="text-xs text-gray-500 mt-1">We build a proprietary asset, not just a tool. This is intellectual property with value.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 3: MODULES & DEMO -->
+            <section id="tab-modules" class="tab-content hidden">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    
+                    <!-- Sidebar Selector -->
+                    <div class="lg:col-span-4 space-y-4">
+                        <h2 class="font-serif text-3xl text-brand-900 mb-6">Feature Modules</h2>
+                        
+                        <div onclick="showModule('training')" class="module-card cursor-pointer p-5 rounded-lg border border-brand-200 bg-white hover:border-brand-accent transition-all shadow-sm group active-module" id="card-training">
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="font-bold text-brand-800 group-hover:text-brand-accent">Training & LMS</h3>
+                                <span class="text-xl">&#128218;</span>
+                            </div>
+                            <p class="text-xs text-gray-500">Replace standard binders with interactive quizzes, video SOPs, and progress tracking.</p>
+                        </div>
+
+                        <div onclick="showModule('haccp')" class="module-card cursor-pointer p-5 rounded-lg border border-brand-200 bg-white hover:border-brand-accent transition-all shadow-sm group" id="card-haccp">
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="font-bold text-brand-800 group-hover:text-brand-accent">IoT HACCP Automation</h3>
+                                <span class="text-xl text-red-500 animate-pulse">&#9679;</span>
+                            </div>
+                            <p class="text-xs text-gray-500">Live temperature monitoring via custom ESP32 hardware. Alerting logic.</p>
+                        </div>
+
+                        <div onclick="showModule('rewards')" class="module-card cursor-pointer p-5 rounded-lg border border-brand-200 bg-white hover:border-brand-accent transition-all shadow-sm group" id="card-rewards">
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="font-bold text-brand-800 group-hover:text-brand-accent">Gamified Rewards</h3>
+                                <span class="text-xl">&#11088;</span>
+                            </div>
+                            <p class="text-xs text-gray-500">Sync with Toast sales. Unlock tiers. Digital leaderboards.</p>
+                        </div>
+                    </div>
+
+                    <!-- Detail & Demo Area -->
+                    <div class="lg:col-span-8">
+                        
+                        <!-- Training Detail -->
+                        <div id="demo-training" class="demo-view block bg-white rounded-xl shadow-lg border border-brand-200 p-6 h-full min-h-[500px]">
+                            <h3 class="font-serif text-2xl text-brand-900 mb-4 border-b pb-2">Employee Onboarding Demo</h3>
+                            <div class="flex flex-col h-full">
+                                <div class="bg-gray-50 p-4 rounded mb-4">
+                                    <p class="text-sm font-bold text-gray-700 mb-2">Module: "Wine Service Standards"</p>
+                                    <div class="w-full bg-gray-200 rounded-full h-2.5 mb-4">
+                                        <div class="bg-brand-accent h-2.5 rounded-full" style="width: 45%"></div>
+                                    </div>
+                                    <p class="text-xs text-gray-500">Progress: 45% Complete</p>
+                                </div>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div class="border border-dashed border-gray-300 rounded p-8 flex flex-col items-center justify-center text-gray-400">
+                                        <span class="text-4xl mb-2">&#9654;</span>
+                                        <span class="text-xs">Video Placeholder</span>
+                                    </div>
+                                    <div class="space-y-3">
+                                        <div class="p-3 border border-gray-200 rounded hover:bg-brand-50 cursor-pointer text-sm">
+                                            1. Proper Glassware Selection
+                                        </div>
+                                        <div class="p-3 border border-gray-200 rounded hover:bg-brand-50 cursor-pointer text-sm">
+                                            2. Presentation of the Label
+                                        </div>
+                                        <div class="p-3 border border-brand-accent bg-brand-50 rounded cursor-pointer text-sm font-bold">
+                                            3. The Pour (Current)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- HACCP Detail (Live Chart) -->
+                        <div id="demo-haccp" class="demo-view hidden bg-white rounded-xl shadow-lg border border-brand-200 p-6 h-full min-h-[500px]">
+                            <div class="flex justify-between items-center mb-4 border-b pb-2">
+                                <h3 class="font-serif text-2xl text-brand-900">Live Walk-in Monitor</h3>
+                                <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full font-bold flex items-center">
+                                    <span class="w-2 h-2 bg-green-500 rounded-full mr-1"></span> ONLINE
+                                </span>
+                            </div>
+                            
+                            <p class="text-sm text-gray-600 mb-4">Simulated data stream from ESP32 sensors in "Walk-in #2". Shows automated compliance logging.</p>
+                            
+                            <!-- Chart Container -->
+                            <div class="chart-container">
+                                <canvas id="haccpChart"></canvas>
+                            </div>
+                            
+                            <div class="grid grid-cols-3 gap-4 mt-6">
+                                <div class="text-center">
+                                    <div class="text-xs text-gray-500 uppercase">Current Temp</div>
+                                    <div class="text-2xl font-bold text-gray-800" id="currentTempDisplay">38.2°F</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-xs text-gray-500 uppercase">Status</div>
+                                    <div class="text-sm font-bold text-green-600 mt-1">COMPLIANT</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-xs text-gray-500 uppercase">Last Log</div>
+                                    <div class="text-sm font-bold text-gray-600 mt-1">Just now</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Rewards Detail -->
+                        <div id="demo-rewards" class="demo-view hidden bg-white rounded-xl shadow-lg border border-brand-200 p-6 h-full min-h-[500px]">
+                            <h3 class="font-serif text-2xl text-brand-900 mb-4 border-b pb-2">Gamification Dashboard</h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                <div class="bg-brand-900 text-white rounded-lg p-6 relative overflow-hidden">
+                                    <div class="absolute top-0 right-0 p-4 opacity-10 text-6xl">&#127942;</div>
+                                    <div class="text-xs uppercase tracking-widest text-brand-200 mb-1">Top Performer</div>
+                                    <div class="text-3xl font-serif font-bold mb-2">Sarah J.</div>
+                                    <div class="text-sm text-brand-200">$4,250 Sales this week</div>
+                                    <div class="mt-4 inline-block bg-brand-accent px-3 py-1 rounded text-xs font-bold text-white">Level 5 Sommelier</div>
+                                </div>
+                                
+                                <div class="space-y-3">
+                                    <h4 class="font-bold text-sm text-gray-700">Recent Unlocks</h4>
+                                    <div class="flex items-center p-2 bg-gray-50 rounded border border-gray-100">
+                                        <div class="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center text-lg mr-3">&#127867;</div>
+                                        <div>
+                                            <div class="text-xs font-bold text-gray-800">Perfect Pour</div>
+                                            <div class="text-[10px] text-gray-500">Sold 50 craft beers</div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center p-2 bg-gray-50 rounded border border-gray-100">
+                                        <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-lg mr-3">&#128337;</div>
+                                        <div>
+                                            <div class="text-xs font-bold text-gray-800">Punctuality Streak</div>
+                                            <div class="text-[10px] text-gray-500">30 days on time</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 4: BUSINESS CASE (SaaS) -->
+            <section id="tab-business" class="tab-content hidden">
+                <div class="mb-8">
+                    <h2 class="font-serif text-3xl text-brand-900 mb-2">The Business Model</h2>
+                    <p class="text-gray-600 text-sm">Transforming a cost center (development) into a revenue center (SaaS Sales).</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Controls -->
+                    <div class="bg-white p-6 rounded-lg shadow-sm border border-brand-200">
+                        <h3 class="font-bold text-brand-800 mb-6">Market Projection Controls</h3>
+                        
+                        <div class="mb-6">
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Market Price (Monthly Subscription)</label>
+                            <input type="range" id="priceSlider" min="50" max="300" value="150" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-brand-accent">
+                            <div class="flex justify-between text-sm mt-1 font-bold text-brand-900">
+                                <span>$50</span>
+                                <span id="priceValue">$150</span>
+                                <span>$300</span>
+                            </div>
+                        </div>
+
+                        <div class="mb-6">
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Target Restaurants (Year 2)</label>
+                            <input type="range" id="clientSlider" min="10" max="500" value="50" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-brand-accent">
+                            <div class="flex justify-between text-sm mt-1 font-bold text-brand-900">
+                                <span>10</span>
+                                <span id="clientValue">50</span>
+                                <span>500</span>
+                            </div>
+                        </div>
+
+                        <div class="p-4 bg-brand-50 rounded border border-brand-200 mt-8">
+                            <div class="text-xs text-gray-500 uppercase mb-1">Estimated Annual Revenue</div>
+                            <div class="text-3xl font-serif font-bold text-brand-accent" id="revenueDisplay">$90,000</div>
+                            <div class="text-xs text-gray-400 mt-2">*Before platform fees</div>
+                        </div>
+                    </div>
+
+                    <!-- Chart -->
+                    <div class="lg:col-span-2 bg-white p-6 rounded-lg shadow-sm border border-brand-200 flex flex-col items-center justify-center">
+                        <h3 class="font-bold text-gray-700 mb-4 w-full text-left">Cost vs. Revenue Trajectory</h3>
+                        <div class="chart-container">
+                            <canvas id="businessChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="font-serif text-xl text-brand-900 mb-3">Phase 1: Internal Optimization</h3>
+                        <p class="text-sm text-gray-600 mb-2"><strong>Goal:</strong> Perfect the software within our 3 restaurants.</p>
+                        <p class="text-sm text-gray-600 mb-2"><strong>Cost:</strong> Development time + Hardware materials.</p>
+                        <p class="text-sm text-gray-600"><strong>Benefit:</strong> Immediate operational efficiency, automated compliance, staff retention.</p>
+                    </div>
+                    <div>
+                        <h3 class="font-serif text-xl text-brand-900 mb-3">Phase 2: Commercialization</h3>
+                        <p class="text-sm text-gray-600 mb-2"><strong>Goal:</strong> Launch on Toast Marketplace.</p>
+                        <p class="text-sm text-gray-600 mb-2"><strong>Revenue:</strong> Subscription recurring revenue (MRR).</p>
+                        <p class="text-sm text-gray-600"><strong>Opportunity:</strong> Recoup initial investment and generate profit share.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 5: PROPOSAL TERMS -->
+            <section id="tab-proposal" class="tab-content hidden">
+                <div class="max-w-4xl mx-auto">
+                    <div class="bg-white shadow-lg rounded-xl overflow-hidden border border-brand-200">
+                        <div class="bg-brand-900 p-8 text-center">
+                            <h2 class="font-serif text-3xl text-white mb-2">The Partnership Structure</h2>
+                            <p class="text-brand-200">Defining roles, ownership, and incentives.</p>
+                        </div>
+                        
+                        <div class="p-8 sm:p-12">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                                
+                                <!-- My Role -->
+                                <div>
+                                    <h3 class="font-serif text-xl text-brand-800 border-b border-gray-200 pb-2 mb-4">Role: Technical Partner</h3>
+                                    <ul class="space-y-3 text-sm text-gray-600">
+                                        <li class="flex items-start"><span class="text-brand-accent mr-2 font-bold">&bull;</span> Executes all software development (WordPress, PWA, Integrations).</li>
+                                        <li class="flex items-start"><span class="text-brand-accent mr-2 font-bold">&bull;</span> Fabricates and programs custom ESP32 hardware.</li>
+                                        <li class="flex items-start"><span class="text-brand-accent mr-2 font-bold">&bull;</span> Maintains the "Developer" relationship with Toast.</li>
+                                        <li class="flex items-start"><span class="text-brand-accent mr-2 font-bold">&bull;</span> <strong>Retains Intellectual Property (IP) Rights.</strong></li>
+                                    </ul>
+                                </div>
+
+                                <!-- Owner Role -->
+                                <div>
+                                    <h3 class="font-serif text-xl text-brand-800 border-b border-gray-200 pb-2 mb-4">Role: Strategic Investor</h3>
+                                    <ul class="space-y-3 text-sm text-gray-600">
+                                        <li class="flex items-start"><span class="text-brand-800 mr-2 font-bold">&bull;</span> Provides seed funding for hardware and dev time.</li>
+                                        <li class="flex items-start"><span class="text-brand-800 mr-2 font-bold">&bull;</span> Provides the "Sandbox" (the 3 restaurants) for beta testing.</li>
+                                        <li class="flex items-start"><span class="text-brand-800 mr-2 font-bold">&bull;</span> Offers operational insight for feature requirements.</li>
+                                        <li class="flex items-start"><span class="text-brand-800 mr-2 font-bold">&bull;</span> <strong>Receives % of Gross Sales from SaaS Product.</strong></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="mt-12 bg-brand-50 p-6 rounded-lg border border-brand-100">
+                                <h4 class="font-bold text-center text-brand-900 mb-4">Proposed Deal Terms (Discussion Draft)</h4>
+                                <div class="flex flex-col sm:flex-row justify-between items-center text-center sm:text-left space-y-4 sm:space-y-0">
+                                    <div class="flex-1">
+                                        <div class="text-xs uppercase text-gray-500">Development Cost</div>
+                                        <div class="font-serif text-xl font-bold text-gray-800">Fixed Project Fee</div>
+                                        <div class="text-xs text-gray-400">Paid upon milestones</div>
+                                    </div>
+                                    <div class="text-2xl text-brand-300 hidden sm:block">/</div>
+                                    <div class="flex-1 sm:text-center">
+                                        <div class="text-xs uppercase text-gray-500">Revenue Share</div>
+                                        <div class="font-serif text-xl font-bold text-brand-accent">10-20% Royalty</div>
+                                        <div class="text-xs text-gray-400">On all external sales</div>
+                                    </div>
+                                    <div class="text-2xl text-brand-300 hidden sm:block">/</div>
+                                    <div class="flex-1 sm:text-right">
+                                        <div class="text-xs uppercase text-gray-500">Commitment</div>
+                                        <div class="font-serif text-xl font-bold text-gray-800">Partnership</div>
+                                        <div class="text-xs text-gray-400">Not Employee-Employer</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-8 text-center">
+                                <button class="bg-brand-900 text-white px-8 py-3 rounded hover:bg-brand-800 transition shadow-md font-serif">
+                                    Start the Conversation
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // --- State Management ---
+        let haccpChartInstance = null;
+        let businessChartInstance = null;
+        let simulationInterval = null;
+
+        // --- Navigation Logic ---
+        function switchTab(tabId) {
+            // Hide all contents
+            document.querySelectorAll('.tab-content').forEach(el => {
+                el.classList.add('hidden');
+                el.classList.remove('block', 'animate-fade-in');
+            });
+            
+            // Show selected
+            const selectedTab = document.getElementById(`tab-${tabId}`);
+            selectedTab.classList.remove('hidden');
+            selectedTab.classList.add('block', 'animate-fade-in');
+
+            // Update Nav Styles
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active', 'text-brand-800', 'border-b-2', 'border-brand-accent'));
+            const navBtn = document.getElementById(`nav-${tabId}`);
+            navBtn.classList.add('active');
+
+            // Trigger Chart Renders if needed
+            if (tabId === 'modules') {
+                // Ensure HACCP chart renders if visible
+                if (!document.getElementById('demo-haccp').classList.contains('hidden')) {
+                    initHACCPChart();
+                }
+            } else if (tabId === 'business') {
+                setTimeout(initBusinessChart, 100); // Slight delay for DOM layout
+            }
+        }
+
+        // --- Module Switcher Logic ---
+        function showModule(moduleId) {
+            // Update Sidebar
+            document.querySelectorAll('.module-card').forEach(el => {
+                el.classList.remove('border-brand-accent', 'bg-brand-50');
+                el.classList.add('border-brand-200', 'bg-white');
+            });
+            const card = document.getElementById(`card-${moduleId}`);
+            card.classList.remove('border-brand-200', 'bg-white');
+            card.classList.add('border-brand-accent', 'bg-brand-50');
+
+            // Update Detail View
+            document.querySelectorAll('.demo-view').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`demo-${moduleId}`).classList.remove('hidden');
+
+            // Specific Logic
+            if (moduleId === 'haccp') {
+                initHACCPChart();
+            } else {
+                stopSimulation();
+            }
+        }
+
+        // --- HACCP Live Chart Logic (Chart.js) ---
+        function initHACCPChart() {
+            const ctx = document.getElementById('haccpChart').getContext('2d');
+            
+            if (haccpChartInstance) {
+                haccpChartInstance.destroy();
+            }
+
+            // Initial Data
+            const initialData = Array.from({length: 20}, () => 35 + Math.random() * 5);
+            const labels = Array.from({length: 20}, (_, i) => i);
+
+            haccpChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Walk-in Temp (°F)',
+                        data: initialData,
+                        borderColor: '#d97706', // Brand Accent
+                        backgroundColor: 'rgba(217, 119, 6, 0.1)',
+                        borderWidth: 2,
+                        tension: 0.4,
+                        pointRadius: 0,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: false,
+                    scales: {
+                        y: {
+                            min: 30,
+                            max: 50,
+                            grid: { color: '#f5f5f4' }
+                        },
+                        x: { display: false }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { enabled: true }
+                    }
+                }
+            });
+
+            startSimulation();
+        }
+
+        function startSimulation() {
+            if (simulationInterval) clearInterval(simulationInterval);
+            
+            simulationInterval = setInterval(() => {
+                if (!haccpChartInstance) return;
+
+                // Generate new data point (simulating sensor)
+                const prev = haccpChartInstance.data.datasets[0].data[haccpChartInstance.data.datasets[0].data.length - 1];
+                let change = (Math.random() - 0.5) * 1.5;
+                let newVal = prev + change;
+                
+                // Keep within realistic bounds
+                if (newVal > 42) newVal = 41.5; 
+                if (newVal < 33) newVal = 33.5;
+
+                // Update DOM
+                document.getElementById('currentTempDisplay').innerText = newVal.toFixed(1) + '°F';
+                
+                // Update Chart
+                haccpChartInstance.data.datasets[0].data.shift();
+                haccpChartInstance.data.datasets[0].data.push(newVal);
+                haccpChartInstance.update();
+
+            }, 1000); // Update every second
+        }
+
+        function stopSimulation() {
+            if (simulationInterval) clearInterval(simulationInterval);
+        }
+
+        // --- Business Case Calculator Logic ---
+        function initBusinessChart() {
+            const ctx = document.getElementById('businessChart').getContext('2d');
+            
+            if (businessChartInstance) return; // Prevent re-init
+
+            businessChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Year 1 (Internal)', 'Year 2 (Growth)', 'Year 3 (Scale)'],
+                    datasets: [
+                        {
+                            label: 'Development Cost',
+                            data: [25000, 5000, 5000],
+                            backgroundColor: '#e7e5e4' // Stone 200
+                        },
+                        {
+                            label: 'SaaS Revenue',
+                            data: [0, 90000, 180000],
+                            backgroundColor: '#d97706' // Brand Accent
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return '$' + context.raw.toLocaleString();
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: '#f5f5f4' }
+                        }
+                    }
+                }
+            });
+
+            updateBusinessCalc(); // Initial Calc
+        }
+
+        function updateBusinessCalc() {
+            const price = parseInt(document.getElementById('priceSlider').value);
+            const clients = parseInt(document.getElementById('clientSlider').value);
+            
+            // Update UI Labels
+            document.getElementById('priceValue').innerText = '$' + price;
+            document.getElementById('clientValue').innerText = clients;
+            
+            // Calculate Annual Revenue
+            const annualRev = price * clients * 12;
+            document.getElementById('revenueDisplay').innerText = '$' + annualRev.toLocaleString();
+
+            // Update Chart Data
+            if (businessChartInstance) {
+                // Logic: Year 2 is calculated based on inputs. Year 3 is doubled projection.
+                businessChartInstance.data.datasets[1].data[1] = annualRev; 
+                businessChartInstance.data.datasets[1].data[2] = annualRev * 2;
+                businessChartInstance.update();
+            }
+        }
+
+        // Event Listeners for Business Calc
+        document.getElementById('priceSlider').addEventListener('input', updateBusinessCalc);
+        document.getElementById('clientSlider').addEventListener('input', updateBusinessCalc);
+
+        // Initial setup
+        // Note: Default active tab is set in HTML
+    </script>
+</body>
+</html>
