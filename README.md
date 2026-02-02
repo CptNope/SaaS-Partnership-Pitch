@@ -3,6 +3,9 @@
 **A Strategic Blueprint for IoT-Enabled HACCP, Synchronized Training, and Toast POS Ecosystems**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-View%20Proposal-blue?style=for-the-badge)](https://cptnope.github.io/SaaS-Partnership-Pitch/)
+
+> **🔗 [View Live Interactive Proposal](https://cptnope.github.io/SaaS-Partnership-Pitch/)**
 
 ---
 
