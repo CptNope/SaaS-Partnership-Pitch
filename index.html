@@ -353,59 +353,73 @@
                 </div>
 
                 <!-- Custom Diagram Implementation (CSS Grid/Flex) -->
-                <div class="bg-white p-4 sm:p-6 lg:p-12 rounded-xl shadow-sm border border-brand-200 overflow-x-auto -mx-4 sm:mx-0">
-                    <div class="min-w-[320px] sm:min-w-[600px] lg:min-w-[700px] flex flex-col items-center space-y-4 sm:space-y-8 px-4 sm:px-0">
+                <div class="bg-white p-4 sm:p-6 lg:p-8 rounded-xl shadow-sm border border-brand-200">
+                    <div class="flex flex-col items-center space-y-4 sm:space-y-6">
                         
                         <!-- Top Layer: External/Cloud -->
-                        <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-8 lg:space-x-12 w-full justify-center items-center">
-                            <div class="flow-box w-40 sm:w-48 p-3 sm:p-4 text-center rounded-lg relative">
-                                <div class="font-bold text-orange-600 mb-1">Toast POS</div>
-                                <div class="text-xs text-gray-500">API & Sync</div>
-                                <div class="text-[10px] text-gray-400 mt-2">Sales Data, Labor, Menu</div>
+                        <div class="grid grid-cols-2 gap-3 sm:gap-6 w-full max-w-md">
+                            <div class="flow-box p-3 text-center rounded-lg">
+                                <div class="text-xl sm:text-2xl mb-1">&#127834;</div>
+                                <div class="font-bold text-orange-600 text-sm sm:text-base">Toast POS</div>
+                                <div class="text-[10px] sm:text-xs text-gray-500">API & Sync</div>
+                                <div class="text-[9px] sm:text-[10px] text-gray-400 mt-1 hidden sm:block">Sales, Labor, Menu</div>
                             </div>
                             
-                            <div class="flow-box w-40 sm:w-48 p-3 sm:p-4 text-center rounded-lg border-blue-200">
-                                <div class="font-bold text-blue-600 mb-1">WordPress</div>
-                                <div class="text-xs text-gray-500">Marketing & Web</div>
-                                <div class="text-[10px] text-gray-400 mt-2">Public Facing, Reservations</div>
+                            <div class="flow-box p-3 text-center rounded-lg border-blue-200">
+                                <div class="text-xl sm:text-2xl mb-1">&#127760;</div>
+                                <div class="font-bold text-blue-600 text-sm sm:text-base">WordPress</div>
+                                <div class="text-[10px] sm:text-xs text-gray-500">Marketing</div>
+                                <div class="text-[9px] sm:text-[10px] text-gray-400 mt-1 hidden sm:block">Public, Reservations</div>
                             </div>
                         </div>
 
-                        <!-- Vertical Connector -->
-                        <div class="h-6 sm:h-12 w-0.5 bg-gray-300"></div>
+                        <!-- Connector -->
+                        <div class="flex flex-col items-center">
+                            <div class="h-4 sm:h-6 w-0.5 bg-gray-300"></div>
+                            <div class="text-gray-400 text-xs">&#9660;</div>
+                        </div>
 
                         <!-- Middle Layer: The Core Application -->
-                        <div class="flow-box w-full max-w-2xl p-4 sm:p-6 rounded-lg border-2 border-brand-accent bg-brand-50 relative z-10">
-                            <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-brand-accent text-white px-3 py-1 text-xs font-bold rounded-full uppercase tracking-wider">The Core Product</div>
-                            <h3 class="text-center font-serif text-xl font-bold text-brand-900 mb-6">Custom Operations Hub (PWA)</h3>
+                        <div class="flow-box w-full p-4 sm:p-6 rounded-lg border-2 border-brand-accent bg-brand-50 relative">
+                            <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-brand-accent text-white px-2 sm:px-3 py-1 text-[10px] sm:text-xs font-bold rounded-full uppercase tracking-wider whitespace-nowrap">Core Product</div>
+                            <h3 class="text-center font-serif text-base sm:text-xl font-bold text-brand-900 mb-4 sm:mb-6 mt-1">Custom Operations Hub (PWA)</h3>
                             
-                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
-                                <div class="bg-white p-3 rounded shadow-sm text-center">
-                                    <div class="text-2xl mb-1">&#127891;</div>
-                                    <div class="font-bold text-sm text-gray-700">LMS Training</div>
-                                    <div class="text-[10px] text-gray-500">Quizzes, SOPs</div>
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
+                                <div class="bg-white p-2 sm:p-3 rounded shadow-sm text-center">
+                                    <div class="text-lg sm:text-2xl mb-1">&#127891;</div>
+                                    <div class="font-bold text-xs sm:text-sm text-gray-700">Training</div>
+                                    <div class="text-[9px] sm:text-[10px] text-gray-500">LMS & Quizzes</div>
                                 </div>
-                                <div class="bg-white p-3 rounded shadow-sm text-center border border-red-100">
-                                    <div class="text-2xl mb-1">&#127777;</div>
-                                    <div class="font-bold text-sm text-gray-700">HACCP Live</div>
-                                    <div class="text-[10px] text-gray-500">IoT Data Stream</div>
+                                <div class="bg-white p-2 sm:p-3 rounded shadow-sm text-center border border-red-100">
+                                    <div class="text-lg sm:text-2xl mb-1">&#127777;</div>
+                                    <div class="font-bold text-xs sm:text-sm text-gray-700">HACCP</div>
+                                    <div class="text-[9px] sm:text-[10px] text-gray-500">IoT Sensors</div>
                                 </div>
-                                <div class="bg-white p-3 rounded shadow-sm text-center">
-                                    <div class="text-2xl mb-1">&#127942;</div>
-                                    <div class="font-bold text-sm text-gray-700">Rewards</div>
-                                    <div class="text-[10px] text-gray-500">Gamification</div>
+                                <div class="bg-white p-2 sm:p-3 rounded shadow-sm text-center">
+                                    <div class="text-lg sm:text-2xl mb-1">&#127942;</div>
+                                    <div class="font-bold text-xs sm:text-sm text-gray-700">Rewards</div>
+                                    <div class="text-[9px] sm:text-[10px] text-gray-500">Gamification</div>
+                                </div>
+                                <div class="bg-white p-2 sm:p-3 rounded shadow-sm text-center border border-purple-100">
+                                    <div class="text-lg sm:text-2xl mb-1">&#128230;</div>
+                                    <div class="font-bold text-xs sm:text-sm text-gray-700">Inventory</div>
+                                    <div class="text-[9px] sm:text-[10px] text-gray-500">AvsT & Orders</div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Vertical Connector -->
-                        <div class="h-6 sm:h-12 w-0.5 bg-gray-300"></div>
+                        <!-- Connector -->
+                        <div class="flex flex-col items-center">
+                            <div class="text-gray-400 text-xs">&#9650;</div>
+                            <div class="h-4 sm:h-6 w-0.5 bg-gray-300"></div>
+                        </div>
 
                         <!-- Bottom Layer: Hardware -->
-                        <div class="flow-box w-52 sm:w-64 p-3 sm:p-4 text-center rounded-lg border-green-200 bg-green-50">
-                            <div class="font-bold text-green-700 mb-1">Custom IoT Hardware</div>
-                            <div class="text-xs text-gray-600">ESP32 Controllers + Sensors</div>
-                            <div class="text-[10px] text-gray-500 mt-2">Fridges, Walk-ins, Line Checks</div>
+                        <div class="flow-box w-full max-w-xs p-3 sm:p-4 text-center rounded-lg border-green-200 bg-green-50">
+                            <div class="text-xl sm:text-2xl mb-1">&#128225;</div>
+                            <div class="font-bold text-green-700 text-sm sm:text-base">Custom IoT Hardware</div>
+                            <div class="text-[10px] sm:text-xs text-gray-600">ESP32 Controllers + Sensors</div>
+                            <div class="text-[9px] sm:text-[10px] text-gray-500 mt-1">Fridges, Walk-ins, Line Checks</div>
                         </div>
 
                     </div>
