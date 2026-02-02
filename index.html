@@ -688,6 +688,16 @@
                         </div>
                         
                         <div class="mt-4 pt-4 border-t border-brand-200">
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Recoup Multiplier</label>
+                            <input type="range" id="recoupMultSlider" min="150" max="300" value="175" title="Recoup multiplier" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-500">
+                            <div class="flex justify-between text-[10px] mt-1 text-gray-500">
+                                <span>1.5x</span>
+                                <span id="recoupMultValue" class="font-bold text-blue-600">1.75x</span>
+                                <span>3.0x</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4">
                             <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Recoup % of Revenue</label>
                             <input type="range" id="recoupSlider" min="20" max="60" value="40" title="Recoup percentage of revenue" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-500">
                             <div class="flex justify-between text-[10px] mt-1 text-gray-500">
@@ -1189,12 +1199,17 @@
             const clients = parseInt(document.getElementById('clientSlider').value);
             const devTier = parseInt(document.getElementById('devCostSlider').value);
             const devCost = devCostTiers[devTier].cost;
+            const recoupMult = parseInt(document.getElementById('recoupMultSlider').value) / 100;
             const recoupRate = parseInt(document.getElementById('recoupSlider').value) / 100;
             const royaltyRate = parseInt(document.getElementById('royaltySlider').value) / 100;
+            
+            // Calculate total recoup target (dev cost * multiplier)
+            const recoupTarget = devCost * recoupMult;
             
             // Update UI Labels
             document.getElementById('priceValue').innerText = '$' + price;
             document.getElementById('clientValue').innerText = clients;
+            document.getElementById('recoupMultValue').innerText = recoupMult.toFixed(2) + 'x';
             document.getElementById('recoupValue').innerText = Math.round(recoupRate * 100) + '%';
             document.getElementById('royaltyValue').innerText = Math.round(royaltyRate * 100) + '%';
             
@@ -1206,12 +1221,12 @@
             
             document.getElementById('revenueDisplay').innerText = '$' + y2Rev.toLocaleString();
 
-            // Calculate recoup payments until investment is paid back
+            // Calculate recoup payments until recoup target is paid back
             const revenues = [0, y2Rev, y3Rev, y4Rev, y5Rev];
             const recoupPayments = [0, 0, 0, 0, 0];
             const royaltyPayments = [0, 0, 0, 0, 0];
             
-            let remainingToRecoup = devCost;
+            let remainingToRecoup = recoupTarget;
             let recoupYear = 0;
             
             for (let i = 1; i < revenues.length; i++) {
@@ -1248,7 +1263,7 @@
             }
             
             // Update ROI info displays
-            document.getElementById('recoupTargetDisplay').innerText = '$' + devCost.toLocaleString();
+            document.getElementById('recoupTargetDisplay').innerText = '$' + Math.round(recoupTarget).toLocaleString();
             document.getElementById('recoupYearDisplay').innerText = recoupYear > 0 ? 'Year ' + recoupYear : '5+ Years';
             document.getElementById('royaltyStartDisplay').innerText = recoupYear > 0 ? 'Year ' + recoupYear : 'After Y5';
         }
@@ -1256,6 +1271,7 @@
         // Event Listeners for Business Calc
         document.getElementById('priceSlider').addEventListener('input', updateBusinessCalc);
         document.getElementById('clientSlider').addEventListener('input', updateBusinessCalc);
+        document.getElementById('recoupMultSlider').addEventListener('input', updateBusinessCalc);
         document.getElementById('recoupSlider').addEventListener('input', updateBusinessCalc);
         document.getElementById('royaltySlider').addEventListener('input', updateBusinessCalc);
 
