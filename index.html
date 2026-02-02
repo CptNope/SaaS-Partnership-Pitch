@@ -440,7 +440,15 @@
                                 <h3 class="font-bold text-brand-800 group-hover:text-brand-accent">Training & LMS</h3>
                                 <span class="text-xl">&#128218;</span>
                             </div>
-                            <p class="text-xs text-gray-500">Replace standard binders with interactive quizzes, video SOPs, and progress tracking.</p>
+                            <p class="text-xs text-gray-500">Interactive quizzes, video SOPs, allergen training, wine/food pairing guides, and progress tracking.</p>
+                        </div>
+
+                        <div onclick="showModule('inventory')" class="module-card cursor-pointer p-4 sm:p-5 rounded-lg border border-brand-200 bg-white hover:border-brand-accent active:border-brand-accent transition-all shadow-sm group" id="card-inventory" role="button" tabindex="0" onkeypress="if(event.key==='Enter')showModule('inventory')">
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="font-bold text-brand-800 group-hover:text-brand-accent">Inventory & Ordering</h3>
+                                <span class="text-xl">&#128230;</span>
+                            </div>
+                            <p class="text-xs text-gray-500">AvsT analysis comparing theoretical vs actual usage against sales to flag anomalies and waste.</p>
                         </div>
 
                         <div onclick="showModule('haccp')" class="module-card cursor-pointer p-4 sm:p-5 rounded-lg border border-brand-200 bg-white hover:border-brand-accent active:border-brand-accent transition-all shadow-sm group" id="card-haccp" role="button" tabindex="0" onkeypress="if(event.key==='Enter')showModule('haccp')">
@@ -523,6 +531,64 @@
                                     <div class="text-xs text-gray-500 uppercase">Last Log</div>
                                     <div class="text-sm font-bold text-gray-600 mt-1">Just now</div>
                                 </div>
+                            </div>
+                        </div>
+
+                        <!-- Inventory Detail -->
+                        <div id="demo-inventory" class="demo-view hidden bg-white rounded-xl shadow-lg border border-brand-200 p-4 sm:p-6 h-full min-h-[400px] sm:min-h-[500px]">
+                            <h3 class="font-serif text-xl sm:text-2xl text-brand-900 mb-3 sm:mb-4 border-b pb-2">Inventory & AvsT Analysis</h3>
+                            <p class="text-sm text-gray-600 mb-4">Compare theoretical usage (based on recipes & sales) against actual inventory counts to identify waste, theft, or portioning issues.</p>
+                            
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+                                <div class="bg-green-50 border border-green-200 rounded-lg p-4 text-center">
+                                    <div class="text-xs text-green-600 uppercase font-bold mb-1">On Track</div>
+                                    <div class="text-2xl font-bold text-green-700">42</div>
+                                    <div class="text-xs text-gray-500">Items within variance</div>
+                                </div>
+                                <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 text-center">
+                                    <div class="text-xs text-yellow-600 uppercase font-bold mb-1">Warning</div>
+                                    <div class="text-2xl font-bold text-yellow-700">8</div>
+                                    <div class="text-xs text-gray-500">Items 5-10% variance</div>
+                                </div>
+                                <div class="bg-red-50 border border-red-200 rounded-lg p-4 text-center">
+                                    <div class="text-xs text-red-600 uppercase font-bold mb-1">Flagged</div>
+                                    <div class="text-2xl font-bold text-red-700">3</div>
+                                    <div class="text-xs text-gray-500">Items >10% variance</div>
+                                </div>
+                            </div>
+                            
+                            <h4 class="font-bold text-sm text-gray-700 mb-3">Flagged Anomalies</h4>
+                            <div class="space-y-2">
+                                <div class="flex items-center justify-between p-3 bg-red-50 border border-red-200 rounded">
+                                    <div class="flex items-center">
+                                        <span class="text-red-500 mr-2">&#9888;</span>
+                                        <div>
+                                            <div class="text-sm font-bold text-gray-800">Prime Ribeye</div>
+                                            <div class="text-xs text-gray-500">Theoretical: 45 portions | Actual: 38 portions</div>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="text-sm font-bold text-red-600">-15.6%</div>
+                                        <div class="text-xs text-gray-500">~$280 loss</div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between p-3 bg-red-50 border border-red-200 rounded">
+                                    <div class="flex items-center">
+                                        <span class="text-red-500 mr-2">&#9888;</span>
+                                        <div>
+                                            <div class="text-sm font-bold text-gray-800">Ketel One Vodka</div>
+                                            <div class="text-xs text-gray-500">Theoretical: 82 pours | Actual: 71 pours</div>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="text-sm font-bold text-red-600">-13.4%</div>
+                                        <div class="text-xs text-gray-500">~$88 loss</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-4 p-3 bg-brand-50 rounded border border-brand-200">
+                                <p class="text-xs text-gray-600"><strong>Ordering Assistance:</strong> Based on sales trends and current inventory, system suggests ordering 12 ribeyes and 2 bottles Ketel One before Friday rush.</p>
                             </div>
                         </div>
 
