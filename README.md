@@ -4,8 +4,11 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-View%20Proposal-blue?style=for-the-badge)](https://cptnope.github.io/SaaS-Partnership-Pitch/)
+[![Via Menu Guide](https://img.shields.io/badge/Related-Via%20Menu%20Guide-amber?style=for-the-badge)](https://cptnope.github.io/Via-Menu-Guide/)
 
 > **🔗 [View Live Interactive Proposal](https://cptnope.github.io/SaaS-Partnership-Pitch/)**
+
+> **🍷 Related Project:** [Via Menu Guide](https://cptnope.github.io/Via-Menu-Guide/) — Wine pairing, allergen info with modification guides, and tip tracking PWA that sparked this partnership proposal. ([GitHub](https://github.com/CptNope/Via-Menu-Guide))
 
 ---
 
