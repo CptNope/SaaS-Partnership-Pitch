@@ -688,12 +688,12 @@
                         </div>
                         
                         <div class="mt-4 pt-4 border-t border-brand-200">
-                            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Recoup Target Multiplier</label>
-                            <input type="range" id="recoupSlider" min="150" max="200" value="175" title="Recoup target multiplier" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-brand-accent">
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Recoup % of Revenue</label>
+                            <input type="range" id="recoupSlider" min="20" max="60" value="40" title="Recoup percentage of revenue" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-500">
                             <div class="flex justify-between text-[10px] mt-1 text-gray-500">
-                                <span>1.5x</span>
-                                <span id="recoupValue" class="font-bold text-brand-900">1.75x</span>
-                                <span>2.0x</span>
+                                <span>20%</span>
+                                <span id="recoupValue" class="font-bold text-blue-600">40%</span>
+                                <span>60%</span>
                             </div>
                         </div>
                         
@@ -709,10 +709,9 @@
                         
                         <div class="p-4 bg-white rounded border border-brand-200 mt-4" id="roiInfo">
                             <div class="text-xs space-y-1">
-                                <div class="flex justify-between"><span class="text-gray-500">Investment:</span><span class="font-bold">$25,000</span></div>
-                                <div class="flex justify-between"><span class="text-gray-500">Recoup Target:</span><span class="font-bold" id="recoupTargetDisplay">$43,750</span></div>
-                                <div class="flex justify-between"><span class="text-gray-500">Est. Recoup:</span><span class="font-bold text-brand-accent" id="recoupYearDisplay">Year 2</span></div>
-                                <div class="flex justify-between"><span class="text-gray-500">Royalty Begins:</span><span class="font-bold text-green-600" id="royaltyStartDisplay">Year 3</span></div>
+                                <div class="flex justify-between"><span class="text-gray-500">Investment to Recoup:</span><span class="font-bold text-blue-600" id="recoupTargetDisplay">$25,000</span></div>
+                                <div class="flex justify-between"><span class="text-gray-500">Est. Recoup Complete:</span><span class="font-bold text-brand-accent" id="recoupYearDisplay">Year 2</span></div>
+                                <div class="flex justify-between"><span class="text-gray-500">Royalty Begins:</span><span class="font-bold text-green-600" id="royaltyStartDisplay">Year 2</span></div>
                             </div>
                         </div>
                     </div>
@@ -1130,33 +1129,16 @@
                             order: 2
                         },
                         {
-                            label: 'Restaurant Royalty',
-                            data: [0, 0, 0, 45000, 80000],
-                            backgroundColor: '#16a34a', // Green
+                            label: 'Recoup Payment',
+                            data: [0, 36000, 36000, 0, 0],
+                            backgroundColor: '#3b82f6', // Blue
                             order: 2
                         },
                         {
-                            label: 'Cumulative Revenue',
-                            data: [0, 90000, 270000, 570000, 970000],
-                            type: 'line',
-                            borderColor: '#0ea5e9', // Sky blue
-                            backgroundColor: 'transparent',
-                            borderWidth: 2,
-                            pointRadius: 4,
-                            pointBackgroundColor: '#0ea5e9',
-                            tension: 0.3,
-                            order: 1
-                        },
-                        {
-                            label: 'Recoup Target',
-                            data: [43750, 43750, 43750, 43750, 43750],
-                            type: 'line',
-                            borderColor: '#ef4444', // Red
-                            backgroundColor: 'transparent',
-                            borderWidth: 2,
-                            borderDash: [5, 5],
-                            pointRadius: 0,
-                            order: 0
+                            label: 'Restaurant Royalty',
+                            data: [0, 0, 0, 45000, 60000],
+                            backgroundColor: '#16a34a', // Green
+                            order: 2
                         }
                     ]
                 },
@@ -1207,13 +1189,13 @@
             const clients = parseInt(document.getElementById('clientSlider').value);
             const devTier = parseInt(document.getElementById('devCostSlider').value);
             const devCost = devCostTiers[devTier].cost;
-            const recoupMultiplier = parseInt(document.getElementById('recoupSlider').value) / 100;
+            const recoupRate = parseInt(document.getElementById('recoupSlider').value) / 100;
             const royaltyRate = parseInt(document.getElementById('royaltySlider').value) / 100;
             
             // Update UI Labels
             document.getElementById('priceValue').innerText = '$' + price;
             document.getElementById('clientValue').innerText = clients;
-            document.getElementById('recoupValue').innerText = recoupMultiplier.toFixed(2) + 'x';
+            document.getElementById('recoupValue').innerText = Math.round(recoupRate * 100) + '%';
             document.getElementById('royaltyValue').innerText = Math.round(royaltyRate * 100) + '%';
             
             // Calculate Annual Revenue projections (Y2=base, Y3=2x, Y4=3.3x, Y5=4.5x growth)
@@ -1224,31 +1206,33 @@
             
             document.getElementById('revenueDisplay').innerText = '$' + y2Rev.toLocaleString();
 
-            // Calculate recoup target based on slider
-            const recoupTarget = devCost * recoupMultiplier;
-            
-            // Calculate cumulative revenue to determine recoup point
-            let cumulativeRev = 0;
-            let recoupYear = 5;
-            let royaltyStart = 6; // Default beyond chart
-            
+            // Calculate recoup payments until investment is paid back
             const revenues = [0, y2Rev, y3Rev, y4Rev, y5Rev];
-            const cumulativeRevenues = [0, 0, 0, 0, 0];
+            const recoupPayments = [0, 0, 0, 0, 0];
+            const royaltyPayments = [0, 0, 0, 0, 0];
+            
+            let remainingToRecoup = devCost;
+            let recoupYear = 0;
             
             for (let i = 1; i < revenues.length; i++) {
-                cumulativeRev += revenues[i];
-                cumulativeRevenues[i] = cumulativeRev;
-                if (cumulativeRev >= recoupTarget && recoupYear === 5) {
-                    recoupYear = i + 1;
-                    royaltyStart = i + 2; // Royalty starts the year after recoup
+                if (remainingToRecoup > 0) {
+                    // Still recouping - pay recoup % of revenue
+                    const recoupPayment = Math.min(revenues[i] * recoupRate, remainingToRecoup);
+                    recoupPayments[i] = recoupPayment;
+                    remainingToRecoup -= recoupPayment;
+                    
+                    // If recoup completed this year, royalty starts same year on remaining revenue potential
+                    if (remainingToRecoup <= 0) {
+                        recoupYear = i + 1;
+                        // Partial royalty for remainder of year (proportional)
+                        const recoupPortion = recoupPayment / (revenues[i] * recoupRate);
+                        royaltyPayments[i] = revenues[i] * royaltyRate * (1 - recoupPortion);
+                    }
+                } else {
+                    // Fully recouped - pay royalty
+                    royaltyPayments[i] = revenues[i] * royaltyRate;
                 }
             }
-            
-            // Restaurant royalty after recoup
-            const y2Royalty = (royaltyStart <= 2) ? y2Rev * royaltyRate : 0;
-            const y3Royalty = (royaltyStart <= 3) ? y3Rev * royaltyRate : 0;
-            const y4Royalty = (royaltyStart <= 4) ? y4Rev * royaltyRate : 0;
-            const y5Royalty = (royaltyStart <= 5) ? y5Rev * royaltyRate : 0;
 
             // Update Chart Data
             if (businessChartInstance) {
@@ -1256,19 +1240,17 @@
                 businessChartInstance.data.datasets[0].data = [devCost, devCost * 0.3, devCost * 0.2, devCost * 0.2, devCost * 0.2];
                 // SaaS Revenue
                 businessChartInstance.data.datasets[1].data = [0, y2Rev, y3Rev, y4Rev, y5Rev];
-                // Restaurant Royalty
-                businessChartInstance.data.datasets[2].data = [0, y2Royalty, y3Royalty, y4Royalty, y5Royalty];
-                // Cumulative Revenue line
-                businessChartInstance.data.datasets[3].data = cumulativeRevenues;
-                // Recoup threshold line
-                businessChartInstance.data.datasets[4].data = [recoupTarget, recoupTarget, recoupTarget, recoupTarget, recoupTarget];
+                // Recoup Payment (blue)
+                businessChartInstance.data.datasets[2].data = recoupPayments;
+                // Restaurant Royalty (green)
+                businessChartInstance.data.datasets[3].data = royaltyPayments;
                 businessChartInstance.update();
             }
             
             // Update ROI info displays
-            document.getElementById('recoupTargetDisplay').innerText = '$' + Math.round(recoupTarget).toLocaleString();
-            document.getElementById('recoupYearDisplay').innerText = recoupYear <= 5 ? 'Year ' + recoupYear : '5+ Years';
-            document.getElementById('royaltyStartDisplay').innerText = royaltyStart <= 5 ? 'Year ' + royaltyStart : 'After Y5';
+            document.getElementById('recoupTargetDisplay').innerText = '$' + devCost.toLocaleString();
+            document.getElementById('recoupYearDisplay').innerText = recoupYear > 0 ? 'Year ' + recoupYear : '5+ Years';
+            document.getElementById('royaltyStartDisplay').innerText = recoupYear > 0 ? 'Year ' + recoupYear : 'After Y5';
         }
 
         // Event Listeners for Business Calc
