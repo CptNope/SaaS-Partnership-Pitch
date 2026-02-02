@@ -682,9 +682,22 @@
                         </div>
 
                         <div class="p-4 bg-brand-50 rounded border border-brand-200">
-                            <div class="text-xs text-gray-500 uppercase mb-1">Estimated Annual Revenue</div>
+                            <div class="text-xs text-gray-500 uppercase mb-1">Estimated Annual Revenue (Y2)</div>
                             <div class="text-3xl font-serif font-bold text-brand-accent" id="revenueDisplay">$90,000</div>
                             <div class="text-xs text-gray-400 mt-2">*Before platform fees</div>
+                        </div>
+                        
+                        <div class="p-4 bg-white rounded border border-brand-200 mt-4" id="roiInfo">
+                            <div class="text-xs space-y-1">
+                                <div class="flex justify-between"><span class="text-gray-500">Investment:</span><span class="font-bold">$25,000</span></div>
+                                <div class="flex justify-between"><span class="text-gray-500">Recoup Target (1.75x):</span><span class="font-bold">$43,750</span></div>
+                                <div class="flex justify-between"><span class="text-gray-500">Est. Recoup:</span><span class="font-bold text-brand-accent">Year 2</span></div>
+                                <div class="flex justify-between"><span class="text-gray-500">Royalty Begins:</span><span class="font-bold text-green-600">Year 3</span></div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4 p-3 bg-green-50 rounded border border-green-200">
+                            <p class="text-[10px] text-green-800"><strong>Royalty Model:</strong> After investment is recouped at 1.5-2x, restaurant receives 15% royalty on ongoing SaaS revenue.</p>
                         </div>
                     </div>
 
@@ -1086,17 +1099,22 @@
             businessChartInstance = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: ['Year 1 (Internal)', 'Year 2 (Growth)', 'Year 3 (Scale)'],
+                    labels: ['Y1 Dev', 'Y2 Launch', 'Y3 Growth', 'Y4 Scale', 'Y5 Mature'],
                     datasets: [
                         {
-                            label: 'Development Cost',
-                            data: [25000, 5000, 5000],
+                            label: 'Development/Maintenance',
+                            data: [25000, 8000, 5000, 5000, 5000],
                             backgroundColor: '#e7e5e4' // Stone 200
                         },
                         {
                             label: 'SaaS Revenue',
-                            data: [0, 90000, 180000],
+                            data: [0, 90000, 180000, 300000, 400000],
                             backgroundColor: '#d97706' // Brand Accent
+                        },
+                        {
+                            label: 'Restaurant Royalty',
+                            data: [0, 0, 0, 45000, 80000],
+                            backgroundColor: '#16a34a' // Green
                         }
                     ]
                 },
@@ -1107,15 +1125,32 @@
                         tooltip: {
                             callbacks: {
                                 label: function(context) {
-                                    return '$' + context.raw.toLocaleString();
+                                    return context.dataset.label + ': $' + context.raw.toLocaleString();
                                 }
+                            }
+                        },
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                boxWidth: 12,
+                                padding: 10,
+                                font: { size: 10 }
                             }
                         }
                     },
                     scales: {
+                        x: {
+                            ticks: { font: { size: 10 } }
+                        },
                         y: {
                             beginAtZero: true,
-                            grid: { color: '#f5f5f4' }
+                            grid: { color: '#f5f5f4' },
+                            ticks: {
+                                callback: function(value) {
+                                    return '$' + (value / 1000) + 'k';
+                                },
+                                font: { size: 10 }
+                            }
                         }
                     }
                 }
@@ -1127,21 +1162,67 @@
         function updateBusinessCalc() {
             const price = parseInt(document.getElementById('priceSlider').value);
             const clients = parseInt(document.getElementById('clientSlider').value);
+            const devTier = parseInt(document.getElementById('devCostSlider').value);
+            const devCost = devCostTiers[devTier].cost;
             
             // Update UI Labels
             document.getElementById('priceValue').innerText = '$' + price;
             document.getElementById('clientValue').innerText = clients;
             
-            // Calculate Annual Revenue
-            const annualRev = price * clients * 12;
-            document.getElementById('revenueDisplay').innerText = '$' + annualRev.toLocaleString();
+            // Calculate Annual Revenue projections (Y2=base, Y3=2x, Y4=3.3x, Y5=4.5x growth)
+            const y2Rev = price * clients * 12;
+            const y3Rev = y2Rev * 2;
+            const y4Rev = y2Rev * 3.3;
+            const y5Rev = y2Rev * 4.5;
+            
+            document.getElementById('revenueDisplay').innerText = '$' + y2Rev.toLocaleString();
+
+            // Calculate cumulative revenue to determine recoup point
+            // Recoup target: 1.5x to 2x development cost
+            const recoupTarget = devCost * 1.75; // Middle of 1.5x-2x range
+            let cumulativeRev = 0;
+            let royaltyStart = 5; // Default to year 5
+            
+            const revenues = [0, y2Rev, y3Rev, y4Rev, y5Rev];
+            for (let i = 1; i < revenues.length; i++) {
+                cumulativeRev += revenues[i];
+                if (cumulativeRev >= recoupTarget && royaltyStart === 5) {
+                    royaltyStart = i + 1; // Royalty starts the year after recoup
+                }
+            }
+            
+            // Restaurant royalty: 15% of revenue after recoup (1.5x-2x investment returned)
+            const royaltyRate = 0.15;
+            const y4Royalty = (royaltyStart <= 4) ? y4Rev * royaltyRate : 0;
+            const y5Royalty = (royaltyStart <= 5) ? y5Rev * royaltyRate : 0;
 
             // Update Chart Data
             if (businessChartInstance) {
-                // Logic: Year 2 is calculated based on inputs. Year 3 is doubled projection.
-                businessChartInstance.data.datasets[1].data[1] = annualRev; 
-                businessChartInstance.data.datasets[1].data[2] = annualRev * 2;
+                // Development/Maintenance costs
+                businessChartInstance.data.datasets[0].data = [devCost, devCost * 0.3, devCost * 0.2, devCost * 0.2, devCost * 0.2];
+                // SaaS Revenue
+                businessChartInstance.data.datasets[1].data = [0, y2Rev, y3Rev, y4Rev, y5Rev];
+                // Restaurant Royalty
+                businessChartInstance.data.datasets[2].data = [0, 0, 0, y4Royalty, y5Royalty];
                 businessChartInstance.update();
+            }
+            
+            // Update ROI info
+            updateROIInfo(devCost, recoupTarget, y2Rev, royaltyStart);
+        }
+        
+        function updateROIInfo(devCost, recoupTarget, annualRev, royaltyStart) {
+            const roiInfo = document.getElementById('roiInfo');
+            if (roiInfo) {
+                const yearsToRecoup = annualRev > 0 ? Math.ceil(recoupTarget / annualRev) + 1 : '5+';
+                roiInfo.innerHTML = `
+                    <div class="text-xs space-y-1">
+                        <div class="flex justify-between"><span class="text-gray-500">Investment:</span><span class="font-bold">$${devCost.toLocaleString()}</span></div>
+                        <div class="flex justify-between"><span class="text-gray-500">Recoup Target (1.75x):</span><span class="font-bold">$${Math.round(recoupTarget).toLocaleString()}</span></div>
+                        <div class="flex justify-between"><span class="text-gray-500">Est. Recoup:</span><span class="font-bold text-brand-accent">Year ${yearsToRecoup}</span></div>
+                        <div class="flex justify-between"><span class="text-gray-500">Royalty Begins:</span><span class="font-bold text-green-600">Year ${royaltyStart}</span></div>
+                    </div>
+                `;
             }
         }
 
@@ -1188,7 +1269,10 @@
             }
         }
 
-        document.getElementById('devCostSlider').addEventListener('input', updateDevCost);
+        document.getElementById('devCostSlider').addEventListener('input', () => {
+            updateDevCost();
+            updateBusinessCalc();
+        });
 
         // Initial setup
         // Note: Default active tab is set in HTML
