@@ -215,6 +215,9 @@
                         <h1 class="font-serif text-lg sm:text-2xl text-brand-900 font-bold leading-none">Partnership Proposal</h1>
                         <p class="text-[10px] sm:text-xs text-brand-800 uppercase tracking-widest mt-0.5 sm:mt-1 hidden xs:block">Digital Operations Suite</p>
                     </div>
+                    <a href="https://github.com/CptNope/SaaS-Partnership-Pitch#readme" target="_blank" rel="noopener noreferrer" class="ml-3 sm:ml-4 p-1.5 sm:p-2 rounded-lg hover:bg-brand-100 transition-colors" aria-label="View README on GitHub" title="View README">
+                        <svg class="w-5 h-5 sm:w-6 sm:h-6 text-brand-700" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                    </a>
                 </div>
 
                 <!-- Mobile Menu Button -->
@@ -231,6 +234,7 @@
                     <button onclick="switchTab('modules')" class="nav-item py-4 px-2 text-sm font-medium text-brand-500 hover:text-brand-accent transition-colors" id="nav-modules">Modules</button>
                     <button onclick="switchTab('business')" class="nav-item py-4 px-2 text-sm font-medium text-brand-500 hover:text-brand-accent transition-colors" id="nav-business">Business</button>
                     <button onclick="switchTab('proposal')" class="nav-item py-4 px-2 text-sm font-medium text-brand-500 hover:text-brand-accent transition-colors" id="nav-proposal">Terms</button>
+                    <button onclick="switchTab('share')" class="nav-item py-4 px-2 text-sm font-medium text-brand-500 hover:text-brand-accent transition-colors" id="nav-share">Share</button>
                 </nav>
             </div>
         </div>
@@ -267,6 +271,9 @@
             </button>
             <button onclick="switchTab('proposal'); toggleMobileNav();" class="mobile-nav-item w-full text-left p-4 rounded-lg text-brand-800 hover:bg-brand-50 active:bg-brand-100 transition-colors font-medium flex items-center" id="mobile-nav-proposal">
                 <span class="text-xl mr-3">&#128196;</span> Structure & Terms
+            </button>
+            <button onclick="switchTab('share'); toggleMobileNav();" class="mobile-nav-item w-full text-left p-4 rounded-lg text-brand-800 hover:bg-brand-50 active:bg-brand-100 transition-colors font-medium flex items-center" id="mobile-nav-share">
+                <span class="text-xl mr-3">&#128279;</span> Share
             </button>
         </div>
     </nav>
@@ -569,7 +576,7 @@
                         
                         <div class="mb-6">
                             <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Market Price (Monthly Subscription)</label>
-                            <input type="range" id="priceSlider" min="50" max="300" value="150" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-brand-accent">
+                            <input type="range" id="priceSlider" min="50" max="300" value="150" title="Market price slider" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-brand-accent">
                             <div class="flex justify-between text-sm mt-1 font-bold text-brand-900">
                                 <span>$50</span>
                                 <span id="priceValue">$150</span>
@@ -579,7 +586,7 @@
 
                         <div class="mb-6">
                             <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Target Restaurants (Year 2)</label>
-                            <input type="range" id="clientSlider" min="10" max="500" value="50" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-brand-accent">
+                            <input type="range" id="clientSlider" min="10" max="500" value="50" title="Target restaurants slider" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-brand-accent">
                             <div class="flex justify-between text-sm mt-1 font-bold text-brand-900">
                                 <span>10</span>
                                 <span id="clientValue">50</span>
@@ -687,6 +694,43 @@
                 </div>
             </section>
 
+            <!-- TAB 6: SHARE -->
+            <section id="tab-share" class="tab-content hidden">
+                <div class="max-w-2xl mx-auto text-center">
+                    <h2 class="font-serif text-2xl sm:text-3xl md:text-4xl text-brand-900 mb-3 sm:mb-4">Share This Proposal</h2>
+                    <p class="text-base sm:text-lg text-gray-600 leading-relaxed mb-8">
+                        Scan the QR code or share the link to view this proposal on any device.
+                    </p>
+                    
+                    <div class="bg-white p-6 sm:p-10 rounded-lg shadow-sm border border-brand-200 inline-block">
+                        <!-- QR Code for https://cptnope.github.io/SaaS-Partnership-Pitch/ -->
+                        <svg viewBox="0 0 37 37" class="w-48 h-48 sm:w-64 sm:h-64 mx-auto">
+                            <rect width="37" height="37" fill="white"/>
+                            <path d="M0 0h7v1h-7zM8 0h1v1h-1zM10 0h1v1h-1zM12 0h2v1h-2zM15 0h1v1h-1zM17 0h1v1h-1zM19 0h2v1h-2zM22 0h1v1h-1zM24 0h2v1h-2zM27 0h1v1h-1zM30 0h7v1h-7zM0 1h1v1h-1zM6 1h1v1h-1zM8 1h3v1h-3zM13 1h1v1h-1zM15 1h3v1h-3zM20 1h1v1h-1zM23 1h1v1h-1zM25 1h1v1h-1zM28 1h1v1h-1zM30 1h1v1h-1zM36 1h1v1h-1zM0 2h1v1h-1zM2 2h3v1h-3zM6 2h1v1h-1zM9 2h1v1h-1zM11 2h1v1h-1zM14 2h1v1h-1zM16 2h2v1h-2zM19 2h3v1h-3zM24 2h2v1h-2zM27 2h2v1h-2zM30 2h1v1h-1zM32 2h3v1h-3zM36 2h1v1h-1zM0 3h1v1h-1zM2 3h3v1h-3zM6 3h1v1h-1zM8 3h2v1h-2zM11 3h3v1h-3zM17 3h1v1h-1zM21 3h2v1h-2zM25 3h1v1h-1zM27 3h1v1h-1zM30 3h1v1h-1zM32 3h3v1h-3zM36 3h1v1h-1zM0 4h1v1h-1zM2 4h3v1h-3zM6 4h1v1h-1zM8 4h1v1h-1zM10 4h2v1h-2zM13 4h1v1h-1zM15 4h5v1h-5zM21 4h2v1h-2zM24 4h1v1h-1zM26 4h3v1h-3zM30 4h1v1h-1zM32 4h3v1h-3zM36 4h1v1h-1zM0 5h1v1h-1zM6 5h1v1h-1zM9 5h2v1h-2zM12 5h2v1h-2zM15 5h1v1h-1zM18 5h1v1h-1zM21 5h1v1h-1zM24 5h2v1h-2zM27 5h2v1h-2zM30 5h1v1h-1zM36 5h1v1h-1zM0 6h7v1h-7zM8 6h1v1h-1zM10 6h1v1h-1zM12 6h1v1h-1zM14 6h1v1h-1zM16 6h1v1h-1zM18 6h1v1h-1zM20 6h1v1h-1zM22 6h1v1h-1zM24 6h1v1h-1zM26 6h1v1h-1zM28 6h1v1h-1zM30 6h7v1h-7zM9 7h3v1h-3zM14 7h1v1h-1zM17 7h1v1h-1zM19 7h1v1h-1zM22 7h1v1h-1zM25 7h2v1h-2zM0 8h1v1h-1zM2 8h2v1h-2zM5 8h3v1h-3zM9 8h1v1h-1zM12 8h1v1h-1zM17 8h3v1h-3zM22 8h5v1h-5zM28 8h2v1h-2zM31 8h2v1h-2zM35 8h2v1h-2zM1 9h1v1h-1zM5 9h1v1h-1zM8 9h3v1h-3zM12 9h2v1h-2zM16 9h2v1h-2zM19 9h1v1h-1zM22 9h1v1h-1zM24 9h2v1h-2zM27 9h2v1h-2zM31 9h1v1h-1zM33 9h1v1h-1zM35 9h2v1h-2zM0 10h2v1h-2zM3 10h1v1h-1zM5 10h2v1h-2zM8 10h2v1h-2zM11 10h1v1h-1zM14 10h4v1h-4zM19 10h2v1h-2zM22 10h1v1h-1zM24 10h1v1h-1zM26 10h1v1h-1zM29 10h1v1h-1zM31 10h3v1h-3zM35 10h1v1h-1zM0 11h1v1h-1zM2 11h1v1h-1zM5 11h1v1h-1zM9 11h1v1h-1zM12 11h2v1h-2zM15 11h2v1h-2zM19 11h2v1h-2zM22 11h1v1h-1zM24 11h1v1h-1zM26 11h1v1h-1zM28 11h2v1h-2zM31 11h2v1h-2zM34 11h1v1h-1zM36 11h1v1h-1zM0 12h3v1h-3zM5 12h3v1h-3zM9 12h1v1h-1zM12 12h1v1h-1zM14 12h1v1h-1zM17 12h1v1h-1zM19 12h2v1h-2zM22 12h2v1h-2zM26 12h2v1h-2zM30 12h1v1h-1zM33 12h1v1h-1zM35 12h2v1h-2zM2 13h2v1h-2zM5 13h1v1h-1zM10 13h2v1h-2zM13 13h2v1h-2zM18 13h2v1h-2zM22 13h2v1h-2zM25 13h2v1h-2zM28 13h2v1h-2zM31 13h1v1h-1zM33 13h1v1h-1zM35 13h1v1h-1zM0 14h2v1h-2zM3 14h1v1h-1zM5 14h1v1h-1zM8 14h5v1h-5zM14 14h2v1h-2zM18 14h2v1h-2zM23 14h2v1h-2zM26 14h1v1h-1zM28 14h1v1h-1zM31 14h3v1h-3zM35 14h2v1h-2zM0 15h1v1h-1zM2 15h2v1h-2zM7 15h1v1h-1zM9 15h3v1h-3zM13 15h1v1h-1zM15 15h2v1h-2zM18 15h1v1h-1zM20 15h2v1h-2zM23 15h1v1h-1zM26 15h2v1h-2zM30 15h3v1h-3zM34 15h1v1h-1zM0 16h1v1h-1zM3 16h1v1h-1zM5 16h2v1h-2zM8 16h2v1h-2zM11 16h1v1h-1zM14 16h2v1h-2zM17 16h2v1h-2zM22 16h2v1h-2zM25 16h1v1h-1zM27 16h2v1h-2zM30 16h2v1h-2zM33 16h1v1h-1zM35 16h1v1h-1zM0 17h1v1h-1zM2 17h3v1h-3zM6 17h1v1h-1zM9 17h1v1h-1zM11 17h2v1h-2zM15 17h2v1h-2zM18 17h1v1h-1zM21 17h2v1h-2zM24 17h1v1h-1zM26 17h1v1h-1zM29 17h1v1h-1zM32 17h2v1h-2zM35 17h2v1h-2zM0 18h1v1h-1zM4 18h1v1h-1zM9 18h2v1h-2zM13 18h3v1h-3zM18 18h1v1h-1zM22 18h3v1h-3zM27 18h2v1h-2zM30 18h1v1h-1zM33 18h1v1h-1zM36 18h1v1h-1zM0 19h1v1h-1zM3 19h1v1h-1zM5 19h3v1h-3zM9 19h1v1h-1zM12 19h1v1h-1zM15 19h1v1h-1zM17 19h3v1h-3zM21 19h4v1h-4zM26 19h1v1h-1zM28 19h2v1h-2zM31 19h2v1h-2zM34 19h1v1h-1zM36 19h1v1h-1zM0 20h2v1h-2zM3 20h3v1h-3zM7 20h1v1h-1zM10 20h2v1h-2zM13 20h2v1h-2zM16 20h1v1h-1zM19 20h2v1h-2zM22 20h2v1h-2zM25 20h3v1h-3zM29 20h1v1h-1zM32 20h2v1h-2zM35 20h2v1h-2zM0 21h1v1h-1zM2 21h3v1h-3zM8 21h2v1h-2zM13 21h1v1h-1zM17 21h1v1h-1zM19 21h1v1h-1zM21 21h2v1h-2zM24 21h1v1h-1zM27 21h1v1h-1zM31 21h2v1h-2zM34 21h1v1h-1zM36 21h1v1h-1zM0 22h1v1h-1zM3 22h2v1h-2zM6 22h1v1h-1zM10 22h3v1h-3zM15 22h1v1h-1zM18 22h2v1h-2zM21 22h1v1h-1zM25 22h1v1h-1zM27 22h1v1h-1zM29 22h3v1h-3zM33 22h1v1h-1zM35 22h1v1h-1zM0 23h4v1h-4zM6 23h1v1h-1zM9 23h2v1h-2zM14 23h2v1h-2zM18 23h2v1h-2zM24 23h1v1h-1zM26 23h2v1h-2zM29 23h5v1h-5zM35 23h2v1h-2zM0 24h1v1h-1zM2 24h1v1h-1zM4 24h2v1h-2zM7 24h1v1h-1zM9 24h2v1h-2zM14 24h1v1h-1zM16 24h1v1h-1zM18 24h1v1h-1zM20 24h1v1h-1zM23 24h1v1h-1zM25 24h1v1h-1zM27 24h2v1h-2zM30 24h1v1h-1zM34 24h2v1h-2zM0 25h1v1h-1zM4 25h1v1h-1zM7 25h1v1h-1zM9 25h3v1h-3zM14 25h2v1h-2zM17 25h1v1h-1zM22 25h3v1h-3zM26 25h1v1h-1zM29 25h1v1h-1zM31 25h2v1h-2zM34 25h1v1h-1zM0 26h2v1h-2zM3 26h1v1h-1zM5 26h1v1h-1zM8 26h3v1h-3zM13 26h1v1h-1zM17 26h1v1h-1zM20 26h1v1h-1zM23 26h4v1h-4zM28 26h3v1h-3zM32 26h1v1h-1zM35 26h2v1h-2zM1 27h3v1h-3zM5 27h2v1h-2zM10 27h2v1h-2zM14 27h2v1h-2zM17 27h1v1h-1zM19 27h3v1h-3zM24 27h1v1h-1zM27 27h2v1h-2zM30 27h1v1h-1zM32 27h3v1h-3zM36 27h1v1h-1zM8 28h3v1h-3zM12 28h2v1h-2zM15 28h2v1h-2zM18 28h1v1h-1zM20 28h2v1h-2zM24 28h1v1h-1zM26 28h2v1h-2zM29 28h1v1h-1zM31 28h1v1h-1zM33 28h1v1h-1zM35 28h2v1h-2zM0 29h7v1h-7zM8 29h1v1h-1zM10 29h1v1h-1zM15 29h1v1h-1zM18 29h2v1h-2zM21 29h1v1h-1zM25 29h2v1h-2zM29 29h1v1h-1zM31 29h2v1h-2zM34 29h1v1h-1zM36 29h1v1h-1zM0 30h1v1h-1zM6 30h1v1h-1zM9 30h2v1h-2zM13 30h2v1h-2zM16 30h2v1h-2zM19 30h3v1h-3zM24 30h2v1h-2zM28 30h2v1h-2zM31 30h3v1h-3zM35 30h2v1h-2zM0 31h1v1h-1zM2 31h3v1h-3zM6 31h1v1h-1zM9 31h1v1h-1zM11 31h3v1h-3zM15 31h1v1h-1zM17 31h1v1h-1zM19 31h1v1h-1zM22 31h2v1h-2zM26 31h2v1h-2zM29 31h2v1h-2zM32 31h3v1h-3zM36 31h1v1h-1zM0 32h1v1h-1zM2 32h3v1h-3zM6 32h1v1h-1zM10 32h2v1h-2zM13 32h1v1h-1zM17 32h2v1h-2zM21 32h2v1h-2zM24 32h2v1h-2zM27 32h2v1h-2zM30 32h1v1h-1zM32 32h1v1h-1zM34 32h1v1h-1zM36 32h1v1h-1zM0 33h1v1h-1zM2 33h3v1h-3zM6 33h1v1h-1zM8 33h2v1h-2zM11 33h1v1h-1zM14 33h1v1h-1zM17 33h3v1h-3zM21 33h1v1h-1zM23 33h2v1h-2zM29 33h2v1h-2zM32 33h2v1h-2zM0 34h1v1h-1zM6 34h1v1h-1zM8 34h1v1h-1zM11 34h1v1h-1zM13 34h2v1h-2zM17 34h1v1h-1zM20 34h1v1h-1zM22 34h1v1h-1zM24 34h1v1h-1zM26 34h2v1h-2zM30 34h3v1h-3zM34 34h1v1h-1zM0 35h7v1h-7zM8 35h1v1h-1zM11 35h3v1h-3zM15 35h2v1h-2zM19 35h1v1h-1zM21 35h2v1h-2zM24 35h2v1h-2zM27 35h1v1h-1zM29 35h2v1h-2zM32 35h2v1h-2zM35 35h1v1h-1z" fill="#1c1917"/>
+                        </svg>
+                        <p class="mt-6 text-sm text-gray-500">Scan with your phone's camera</p>
+                    </div>
+                    
+                    <div class="mt-8">
+                        <p class="text-sm text-gray-500 mb-3">Or copy the link:</p>
+                        <div class="flex items-center justify-center gap-2 flex-wrap">
+                            <input type="text" readonly value="https://cptnope.github.io/SaaS-Partnership-Pitch/" class="px-4 py-2 border border-brand-200 rounded-lg text-sm text-gray-700 bg-white w-full sm:w-auto sm:min-w-[320px] text-center" id="shareUrl">
+                            <button onclick="copyShareUrl()" class="px-4 py-2 bg-brand-900 text-white rounded-lg hover:bg-brand-800 active:bg-brand-800 transition text-sm font-medium" id="copyBtn">
+                                Copy Link
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8 pt-6 border-t border-brand-200">
+                        <p class="text-sm text-gray-500 mb-4">View the full documentation:</p>
+                        <a href="https://github.com/CptNope/SaaS-Partnership-Pitch#readme" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 bg-brand-800 text-white rounded-lg hover:bg-brand-700 transition font-medium">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                            View README on GitHub
+                        </a>
+                    </div>
+                </div>
+            </section>
+
         </div>
     </main>
 
@@ -721,6 +765,25 @@
                 toggleMobileNav();
             }
         });
+
+        // --- Copy Share URL ---
+        function copyShareUrl() {
+            const urlInput = document.getElementById('shareUrl');
+            const copyBtn = document.getElementById('copyBtn');
+            navigator.clipboard.writeText(urlInput.value).then(() => {
+                copyBtn.textContent = 'Copied!';
+                setTimeout(() => {
+                    copyBtn.textContent = 'Copy Link';
+                }, 2000);
+            }).catch(() => {
+                urlInput.select();
+                document.execCommand('copy');
+                copyBtn.textContent = 'Copied!';
+                setTimeout(() => {
+                    copyBtn.textContent = 'Copy Link';
+                }, 2000);
+            });
+        }
 
         // --- Touch Swipe Support for Mobile Nav ---
         let touchStartX = 0;
