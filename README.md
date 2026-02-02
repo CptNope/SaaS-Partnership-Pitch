@@ -10,6 +10,10 @@
 
 > **🍷 Related Project:** [Via Menu Guide](https://cptnope.github.io/Via-Menu-Guide/) — Wine pairing, allergen info with modification guides, and tip tracking PWA that sparked this partnership proposal. ([GitHub](https://github.com/CptNope/Via-Menu-Guide))
 
+> **🥩 HACCP Prototype:** [111 Chop House HACCP](https://service-111-chop-house-haccp-737966244676.us-west1.run.app/) — AI-powered dry age tracking app demonstrating HACCP automation. Built with Google AI Studio, hosted on Cloud Run. ([View in AI Studio](https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221i-M-I6YoWDiAgRNHRiK6XMXPUEt7Kfxh%22%5D,%22action%22:%22open%22,%22userId%22:%22103341023023239498498%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing))
+
+> **📝 Training Prototype:** [Menu Quiz App](https://studio--studio-6227760295-1fe6d.us-central1.hosted.app) — Menu knowledge quiz with employee progress tracking demonstrating LMS training concept. Built with Firebase Studio.
+
 ---
 
 ## Overview
