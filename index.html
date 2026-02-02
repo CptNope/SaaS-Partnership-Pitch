@@ -660,7 +660,28 @@
                             </div>
                         </div>
 
-                        <div class="p-4 bg-brand-50 rounded border border-brand-200 mt-6 sm:mt-8">
+                        <div class="mb-6 pt-4 border-t border-brand-200">
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Development Scope</label>
+                            <input type="range" id="devCostSlider" min="1" max="4" value="2" title="Development scope slider" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-brand-accent">
+                            <div class="flex justify-between text-[10px] mt-1 text-gray-500">
+                                <span>Basic</span>
+                                <span>Standard</span>
+                                <span>Full</span>
+                                <span>Enterprise</span>
+                            </div>
+                            <div class="mt-3 p-3 bg-gray-50 rounded border border-gray-200">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-xs font-bold text-gray-700">Est. Development Cost</span>
+                                    <span class="text-lg font-bold text-brand-accent" id="devCostValue">$25,000</span>
+                                </div>
+                                <p class="text-[10px] text-gray-500" id="devCostDescription">Training + HACCP + Rewards modules with Toast integration. Optimized for single-location deployment.</p>
+                            </div>
+                            <div class="mt-2 text-[10px] text-gray-400">
+                                <span class="font-bold">Modules included:</span> <span id="modulesIncluded">Training, HACCP, Rewards</span>
+                            </div>
+                        </div>
+
+                        <div class="p-4 bg-brand-50 rounded border border-brand-200">
                             <div class="text-xs text-gray-500 uppercase mb-1">Estimated Annual Revenue</div>
                             <div class="text-3xl font-serif font-bold text-brand-accent" id="revenueDisplay">$90,000</div>
                             <div class="text-xs text-gray-400 mt-2">*Before platform fees</div>
@@ -1127,6 +1148,47 @@
         // Event Listeners for Business Calc
         document.getElementById('priceSlider').addEventListener('input', updateBusinessCalc);
         document.getElementById('clientSlider').addEventListener('input', updateBusinessCalc);
+
+        // --- Development Cost Slider Logic ---
+        const devCostTiers = {
+            1: {
+                cost: 12000,
+                description: "Core Training module only. Basic employee onboarding with quiz functionality. Single location.",
+                modules: "Training (Basic)"
+            },
+            2: {
+                cost: 25000,
+                description: "Training + HACCP + Rewards modules with Toast integration. Optimized for single-location deployment.",
+                modules: "Training, HACCP, Rewards"
+            },
+            3: {
+                cost: 45000,
+                description: "Full suite including Inventory/AvsT module, multi-location support, advanced analytics, and custom hardware integration.",
+                modules: "Training, HACCP, Rewards, Inventory/AvsT"
+            },
+            4: {
+                cost: 75000,
+                description: "Enterprise-grade with white-label options, API access, dedicated support, Toast Marketplace optimization, and scalable cloud infrastructure.",
+                modules: "All Modules + White-label + API + Marketplace Ready"
+            }
+        };
+
+        function updateDevCost() {
+            const tier = parseInt(document.getElementById('devCostSlider').value);
+            const tierData = devCostTiers[tier];
+            
+            document.getElementById('devCostValue').innerText = '$' + tierData.cost.toLocaleString();
+            document.getElementById('devCostDescription').innerText = tierData.description;
+            document.getElementById('modulesIncluded').innerText = tierData.modules;
+            
+            // Update chart with new development cost
+            if (businessChartInstance) {
+                businessChartInstance.data.datasets[0].data = [tierData.cost, tierData.cost * 0.3, tierData.cost * 0.1];
+                businessChartInstance.update();
+            }
+        }
+
+        document.getElementById('devCostSlider').addEventListener('input', updateDevCost);
 
         // Initial setup
         // Note: Default active tab is set in HTML
