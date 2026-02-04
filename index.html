@@ -649,6 +649,21 @@
                     <p class="text-gray-600 text-sm">Transforming a cost center (development) into a revenue center (SaaS Sales).</p>
                 </div>
 
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
+                    <div class="bg-white p-4 rounded-lg shadow-sm border border-brand-200">
+                        <h3 class="font-serif text-lg text-brand-900 mb-2">Phase 1: Internal Optimization</h3>
+                        <p class="text-sm text-gray-600 mb-1"><strong>Goal:</strong> Perfect the software within our 3 restaurants.</p>
+                        <p class="text-sm text-gray-600 mb-1"><strong>Cost:</strong> Development time + Hardware materials.</p>
+                        <p class="text-sm text-gray-600"><strong>Benefit:</strong> Immediate operational efficiency, automated compliance, staff retention.</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow-sm border border-brand-200">
+                        <h3 class="font-serif text-lg text-brand-900 mb-2">Phase 2: Commercialization</h3>
+                        <p class="text-sm text-gray-600 mb-1"><strong>Goal:</strong> Launch on Toast Marketplace.</p>
+                        <p class="text-sm text-gray-600 mb-1"><strong>Revenue:</strong> Subscription recurring revenue (MRR).</p>
+                        <p class="text-sm text-gray-600"><strong>Opportunity:</strong> Recoup initial investment and generate profit share.</p>
+                    </div>
+                </div>
+
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-8">
                     <!-- Controls -->
                     <div class="bg-white p-4 sm:p-6 rounded-lg shadow-sm border border-brand-200">
@@ -749,21 +764,7 @@
                     </div>
                 </div>
 
-                <div class="mt-8 sm:mt-12 grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8">
-                    <div>
-                        <h3 class="font-serif text-xl text-brand-900 mb-3">Phase 1: Internal Optimization</h3>
-                        <p class="text-sm text-gray-600 mb-2"><strong>Goal:</strong> Perfect the software within our 3 restaurants.</p>
-                        <p class="text-sm text-gray-600 mb-2"><strong>Cost:</strong> Development time + Hardware materials.</p>
-                        <p class="text-sm text-gray-600"><strong>Benefit:</strong> Immediate operational efficiency, automated compliance, staff retention.</p>
-                    </div>
-                    <div>
-                        <h3 class="font-serif text-xl text-brand-900 mb-3">Phase 2: Commercialization</h3>
-                        <p class="text-sm text-gray-600 mb-2"><strong>Goal:</strong> Launch on Toast Marketplace.</p>
-                        <p class="text-sm text-gray-600 mb-2"><strong>Revenue:</strong> Subscription recurring revenue (MRR).</p>
-                        <p class="text-sm text-gray-600"><strong>Opportunity:</strong> Recoup initial investment and generate profit share.</p>
-                    </div>
-                </div>
-            </section>
+                </section>
 
             <!-- TAB 5: PROPOSAL TERMS -->
             <section id="tab-proposal" class="tab-content hidden">
@@ -1130,6 +1131,15 @@
         }
 
         // --- Business Case Calculator Logic ---
+        function formatMoney(value) {
+            if (value >= 1000000) {
+                return '$' + (value / 1000000).toFixed(1) + 'M';
+            } else if (value >= 1000) {
+                return '$' + Math.round(value / 1000) + 'k';
+            }
+            return '$' + value.toLocaleString();
+        }
+
         function initBusinessChart() {
             const ctx = document.getElementById('businessChart').getContext('2d');
             
@@ -1233,7 +1243,7 @@
             const y4Rev = y2Rev * 3.3;
             const y5Rev = y2Rev * 4.5;
             
-            document.getElementById('revenueDisplay').innerText = '$' + y2Rev.toLocaleString();
+            document.getElementById('revenueDisplay').innerText = formatMoney(y2Rev);
 
             // Calculate recoup payments until recoup target is paid back
             const revenues = [0, y2Rev, y3Rev, y4Rev, y5Rev];
@@ -1277,7 +1287,7 @@
             }
             
             // Update ROI info displays
-            document.getElementById('recoupTargetDisplay').innerText = '$' + Math.round(recoupTarget).toLocaleString();
+            document.getElementById('recoupTargetDisplay').innerText = formatMoney(Math.round(recoupTarget));
             document.getElementById('recoupYearDisplay').innerText = recoupYear > 0 ? 'Year ' + recoupYear : '5+ Years';
             document.getElementById('royaltyStartDisplay').innerText = recoupYear > 0 ? 'Year ' + recoupYear : 'After Y5';
         }
