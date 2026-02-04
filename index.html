@@ -644,118 +644,125 @@
 
             <!-- TAB 4: BUSINESS CASE (SaaS) -->
             <section id="tab-business" class="tab-content hidden">
-                <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 mb-4 lg:mb-6">
-                    <div>
-                        <h2 class="font-serif text-2xl sm:text-3xl text-brand-900 mb-1">The Business Model</h2>
-                        <p class="text-gray-600 text-sm">Transforming a cost center (development) into a revenue center (SaaS Sales).</p>
+                <div class="mb-6">
+                    <h2 class="font-serif text-2xl sm:text-3xl text-brand-900 mb-2">The Business Model</h2>
+                    <p class="text-gray-600 text-sm">Transforming a cost center (development) into a revenue center (SaaS Sales).</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-white p-4 rounded-lg shadow-sm border border-brand-200">
+                        <h3 class="font-serif text-lg text-brand-900 mb-2">Phase 1: Internal Optimization</h3>
+                        <p class="text-sm text-gray-600 mb-1"><strong>Goal:</strong> Perfect the software within our 3 restaurants.</p>
+                        <p class="text-sm text-gray-600 mb-1"><strong>Cost:</strong> Development time + Hardware materials.</p>
+                        <p class="text-sm text-gray-600"><strong>Benefit:</strong> Immediate operational efficiency, automated compliance, staff retention.</p>
                     </div>
-                    <div class="flex flex-col sm:flex-row gap-2 lg:gap-4">
-                        <div class="bg-white px-4 py-2 rounded-lg shadow-sm border border-brand-200 flex-1">
-                            <h3 class="font-bold text-sm text-brand-900">Phase 1: Internal</h3>
-                            <p class="text-xs text-gray-500">Perfect software in 3 restaurants</p>
-                        </div>
-                        <div class="bg-white px-4 py-2 rounded-lg shadow-sm border border-brand-200 flex-1">
-                            <h3 class="font-bold text-sm text-brand-900">Phase 2: Commercialize</h3>
-                            <p class="text-xs text-gray-500">Launch on Toast Marketplace</p>
-                        </div>
+                    <div class="bg-white p-4 rounded-lg shadow-sm border border-brand-200">
+                        <h3 class="font-serif text-lg text-brand-900 mb-2">Phase 2: Commercialization</h3>
+                        <p class="text-sm text-gray-600 mb-1"><strong>Goal:</strong> Launch on Toast Marketplace.</p>
+                        <p class="text-sm text-gray-600 mb-1"><strong>Revenue:</strong> Subscription recurring revenue (MRR).</p>
+                        <p class="text-sm text-gray-600"><strong>Opportunity:</strong> Recoup initial investment and generate profit share.</p>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-8">
+                <div class="space-y-6">
                     <!-- Controls -->
                     <div class="bg-white p-4 sm:p-6 rounded-lg shadow-sm border border-brand-200">
-                        <h3 class="font-bold text-brand-800 mb-4 sm:mb-6">Market Projection Controls</h3>
+                        <h3 class="font-bold text-brand-800 mb-4">Market Projection Controls</h3>
                         
-                        <div class="mb-6">
-                            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Market Price (Monthly Subscription)</label>
-                            <input type="range" id="priceSlider" min="50" max="300" value="150" title="Market price slider" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-brand-accent">
-                            <div class="flex justify-between text-sm mt-1 font-bold text-brand-900">
-                                <span>$50</span>
-                                <span id="priceValue">$150</span>
-                                <span>$300</span>
-                            </div>
-                        </div>
-
-                        <div class="mb-6">
-                            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Target Restaurants (Year 2)</label>
-                            <input type="range" id="clientSlider" min="10" max="500" value="50" title="Target restaurants slider" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-brand-accent">
-                            <div class="flex justify-between text-sm mt-1 font-bold text-brand-900">
-                                <span>10</span>
-                                <span id="clientValue">50</span>
-                                <span>500</span>
-                            </div>
-                        </div>
-
-                        <div class="mb-6 pt-4 border-t border-brand-200">
-                            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Development Scope</label>
-                            <input type="range" id="devCostSlider" min="1" max="4" value="2" title="Development scope slider" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-brand-accent">
-                            <div class="flex justify-between text-[10px] mt-1 text-gray-500">
-                                <span>Basic</span>
-                                <span>Standard</span>
-                                <span>Full</span>
-                                <span>Enterprise</span>
-                            </div>
-                            <div class="mt-3 p-3 bg-gray-50 rounded border border-gray-200">
-                                <div class="flex justify-between items-center mb-2">
-                                    <span class="text-xs font-bold text-gray-700">Est. Development Cost</span>
-                                    <span class="text-lg font-bold text-brand-accent" id="devCostValue">$25,000</span>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+                            <!-- Column 1: Market Inputs -->
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Market Price (Monthly)</label>
+                                    <input type="range" id="priceSlider" min="50" max="300" value="150" title="Market price slider" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-brand-accent">
+                                    <div class="flex justify-between text-xs mt-1 font-bold text-brand-900">
+                                        <span>$50</span>
+                                        <span id="priceValue">$150</span>
+                                        <span>$300</span>
+                                    </div>
                                 </div>
-                                <p class="text-[10px] text-gray-500" id="devCostDescription">Training + HACCP + Rewards modules with Toast integration. Optimized for single-location deployment.</p>
+                                <div>
+                                    <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Target Restaurants (Y2)</label>
+                                    <input type="range" id="clientSlider" min="10" max="500" value="50" title="Target restaurants slider" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-brand-accent">
+                                    <div class="flex justify-between text-xs mt-1 font-bold text-brand-900">
+                                        <span>10</span>
+                                        <span id="clientValue">50</span>
+                                        <span>500</span>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="mt-2 text-[10px] text-gray-400">
-                                <span class="font-bold">Modules included:</span> <span id="modulesIncluded">Training, HACCP, Rewards</span>
-                            </div>
-                        </div>
 
-                        <div class="p-4 bg-brand-50 rounded border border-brand-200">
-                            <div class="text-xs text-gray-500 uppercase mb-1">Estimated Annual Revenue (Y2)</div>
-                            <div class="text-3xl font-serif font-bold text-brand-accent" id="revenueDisplay">$90,000</div>
-                            <div class="text-xs text-gray-400 mt-2">*Before platform fees</div>
-                        </div>
-                        
-                        <div class="mt-4 pt-4 border-t border-brand-200">
-                            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Recoup Multiplier</label>
-                            <input type="range" id="recoupMultSlider" min="150" max="300" value="175" title="Recoup multiplier" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-500">
-                            <div class="flex justify-between text-[10px] mt-1 text-gray-500">
-                                <span>1.5x</span>
-                                <span id="recoupMultValue" class="font-bold text-blue-600">1.75x</span>
-                                <span>3.0x</span>
+                            <!-- Column 2: Development Scope -->
+                            <div>
+                                <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Development Scope</label>
+                                <input type="range" id="devCostSlider" min="1" max="4" value="2" title="Development scope slider" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-brand-accent">
+                                <div class="flex justify-between text-[10px] mt-1 text-gray-500">
+                                    <span>Basic</span>
+                                    <span>Std</span>
+                                    <span>Full</span>
+                                    <span>Ent</span>
+                                </div>
+                                <div class="mt-2 p-2 bg-gray-50 rounded border border-gray-200">
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-xs font-bold text-gray-700">Dev Cost</span>
+                                        <span class="text-sm font-bold text-brand-accent" id="devCostValue">$25,000</span>
+                                    </div>
+                                    <p class="text-[9px] text-gray-500 mt-1" id="devCostDescription">Training + HACCP + Rewards modules with Toast integration.</p>
+                                </div>
                             </div>
-                        </div>
-                        
-                        <div class="mt-4">
-                            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Recoup % of Revenue</label>
-                            <input type="range" id="recoupSlider" min="20" max="60" value="40" title="Recoup percentage of revenue" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-500">
-                            <div class="flex justify-between text-[10px] mt-1 text-gray-500">
-                                <span>20%</span>
-                                <span id="recoupValue" class="font-bold text-blue-600">40%</span>
-                                <span>60%</span>
+
+                            <!-- Column 3: Recoup Settings -->
+                            <div class="space-y-3">
+                                <div>
+                                    <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Recoup Multiplier</label>
+                                    <input type="range" id="recoupMultSlider" min="150" max="300" value="175" title="Recoup multiplier" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-500">
+                                    <div class="flex justify-between text-[10px] mt-1 text-gray-500">
+                                        <span>1.5x</span>
+                                        <span id="recoupMultValue" class="font-bold text-blue-600">1.75x</span>
+                                        <span>3.0x</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Recoup % of Revenue</label>
+                                    <input type="range" id="recoupSlider" min="20" max="60" value="40" title="Recoup percentage of revenue" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-500">
+                                    <div class="flex justify-between text-[10px] mt-1 text-gray-500">
+                                        <span>20%</span>
+                                        <span id="recoupValue" class="font-bold text-blue-600">40%</span>
+                                        <span>60%</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Restaurant Royalty %</label>
+                                    <input type="range" id="royaltySlider" min="5" max="25" value="15" title="Restaurant royalty percentage" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-green-500">
+                                    <div class="flex justify-between text-[10px] mt-1 text-gray-500">
+                                        <span>5%</span>
+                                        <span id="royaltyValue" class="font-bold text-green-600">15%</span>
+                                        <span>25%</span>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        
-                        <div class="mt-4">
-                            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Restaurant Royalty %</label>
-                            <input type="range" id="royaltySlider" min="5" max="25" value="15" title="Restaurant royalty percentage" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-green-500">
-                            <div class="flex justify-between text-[10px] mt-1 text-gray-500">
-                                <span>5%</span>
-                                <span id="royaltyValue" class="font-bold text-green-600">15%</span>
-                                <span>25%</span>
-                            </div>
-                        </div>
-                        
-                        <div class="p-4 bg-white rounded border border-brand-200 mt-4" id="roiInfo">
-                            <div class="text-xs space-y-1">
-                                <div class="flex justify-between"><span class="text-gray-500">Investment to Recoup:</span><span class="font-bold text-blue-600" id="recoupTargetDisplay">$25,000</span></div>
-                                <div class="flex justify-between"><span class="text-gray-500">Est. Recoup Complete:</span><span class="font-bold text-brand-accent" id="recoupYearDisplay">Year 2</span></div>
-                                <div class="flex justify-between"><span class="text-gray-500">Royalty Begins:</span><span class="font-bold text-green-600" id="royaltyStartDisplay">Year 2</span></div>
+
+                            <!-- Column 4: Results -->
+                            <div class="space-y-3">
+                                <div class="p-3 bg-brand-50 rounded border border-brand-200">
+                                    <div class="text-[10px] text-gray-500 uppercase mb-1">Est. Annual Revenue (Y2)</div>
+                                    <div class="text-2xl font-serif font-bold text-brand-accent" id="revenueDisplay">$90k</div>
+                                </div>
+                                <div class="p-3 bg-white rounded border border-brand-200" id="roiInfo">
+                                    <div class="text-[10px] space-y-1">
+                                        <div class="flex justify-between"><span class="text-gray-500">To Recoup:</span><span class="font-bold text-blue-600" id="recoupTargetDisplay">$44k</span></div>
+                                        <div class="flex justify-between"><span class="text-gray-500">Recoup Done:</span><span class="font-bold text-brand-accent" id="recoupYearDisplay">Year 2</span></div>
+                                        <div class="flex justify-between"><span class="text-gray-500">Royalty Starts:</span><span class="font-bold text-green-600" id="royaltyStartDisplay">Year 2</span></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Chart -->
-                    <div class="lg:col-span-2 bg-white p-4 sm:p-6 rounded-lg shadow-sm border border-brand-200 flex flex-col">
-                        <h3 class="font-bold text-gray-700 mb-2 lg:mb-4">Cost vs. Revenue Trajectory</h3>
-                        <div class="chart-container flex-1">
+                    <div class="bg-white p-4 sm:p-6 rounded-lg shadow-sm border border-brand-200">
+                        <h3 class="font-bold text-gray-700 mb-4">Cost vs. Revenue Trajectory</h3>
+                        <div class="chart-container">
                             <canvas id="businessChart"></canvas>
                         </div>
                     </div>
